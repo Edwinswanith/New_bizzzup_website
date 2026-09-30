@@ -2,7 +2,7 @@ import { pageMeta } from "@/lib/site";
 import { PRACTICES, PRACTICES_INTRO, CERTIFICATION_NOTE } from "@/content/company";
 import { PageShell } from "@/components/pages/PageShell";
 import { MapStrip } from "@/components/pages/MapStrip";
-import { Process } from "@/components/home/Process";
+import { Process } from "@/components/pages/Process";
 import { Transformation } from "@/components/pages/Transformation";
 import { NextStep } from "@/components/pages/NextStep";
 import styles from "@/components/pages/page.module.css";
@@ -47,7 +47,7 @@ export default function ProcessPage() {
               </section>
             ))}
           </div>
-          <p style={{ marginTop: 24, padding: "18px 20px", borderLeft: "3px solid var(--amber)", background: "var(--ivory)", color: "var(--graphite)", maxWidth: "80ch" }}>{CERTIFICATION_NOTE}</p>
+          <p style={{ marginTop: 24, padding: "18px 20px", borderLeft: "3px solid var(--ink)", background: "var(--ivory)", color: "var(--graphite)", maxWidth: "80ch" }}>{CERTIFICATION_NOTE}</p>
         </section>
       </div>
       <NextStep />

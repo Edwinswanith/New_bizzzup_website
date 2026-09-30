@@ -1,6 +1,6 @@
 # Tech Cogniverse: complete redesign plan (v1)
 
-Status: plan, for approval. Only the load-bearing prototype (§11) is built before approval.
+Status: built. The homepage is the full One Line flow (`src/components/line/`); chapter 3 "Anatomy", the filmed hero (§8) and the region-to-page View Transition were not built. Where this plan and the code disagree, the code and CLAUDE.md win.
 Facts: `src/content/` (carried over, unchanged). Everything else is replaced.
 
 ---

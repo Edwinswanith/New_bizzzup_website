@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Newsreader, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Instrument_Sans, Martian_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE } from "@/lib/site";
 
-const serif = Newsreader({ subsets: ["latin"], variable: "--font-serif", style: ["normal", "italic"], display: "swap" });
-const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap", weight: ["400", "500"] });
+const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--f-display", display: "swap" });
+const body = Instrument_Sans({ subsets: ["latin"], variable: "--f-body", display: "swap" });
+const mono = Martian_Mono({ subsets: ["latin"], variable: "--f-mono", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -14,11 +15,15 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-export const viewport: Viewport = { themeColor: "#eceae4", colorScheme: "light" };
+export const viewport: Viewport = { themeColor: "#e6e9ea", colorScheme: "light" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${serif.variable} ${mono.variable}`}>
+    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Scroll-driven pages show their resolved, static state unless script can run. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.dataset.js=''" }} />
+      </head>
       <body>
         <a className="skip" href="#main">Skip to content</a>
         {children}

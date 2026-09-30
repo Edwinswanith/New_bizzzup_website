@@ -16,7 +16,7 @@ export const metadata = pageMeta({
 export default function WorkPage() {
   return (
     <PageShell>
-      <MapStrip />
+      <MapStrip shape="taut" />
       <div className="wrap">
         <header className={styles.head}>
           <p className={`mono ${styles.kicker}`}>Work · {STATS[0].value} {STATS[0].label} · {STATS[1].value} {STATS[1].label}</p>

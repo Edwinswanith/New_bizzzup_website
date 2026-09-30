@@ -1,11 +1,6 @@
-import { Anchor } from "@/components/site/Anchor";
-import styles from "./MapStrip.module.css";
+import { LineStrip, type StripShape } from "./LineStrip";
 
-/** Index pages sit above the whole map, not one region. */
-export function MapStrip() {
-  return (
-    <div className={styles.strip} aria-hidden="true">
-      <Anchor name="k2" landscapeOnly priority />
-    </div>
-  );
+/** Index pages sit above the whole system, so they show the line before it takes a region's shape. */
+export function MapStrip({ shape = "tangle" }: { shape?: StripShape }) {
+  return <LineStrip shape={shape} />;
 }

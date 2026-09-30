@@ -1,6 +1,6 @@
 # Tech Cogniverse website
 
-Next.js (App Router) + TypeScript + GSAP. Business friction in, working systems out.
+Next.js (App Router) + TypeScript. One continuous line, drawn in code, from the first tangle to the contact field.
 
 ```bash
 npm install
@@ -12,4 +12,4 @@ Configuration: copy `.env.example` to `.env.local`. Set `NEXT_PUBLIC_SITE_URL` f
 
 Deploys as a Next.js standalone server (`output: "standalone"`).
 
-See `CLAUDE.md` for architecture and design rules, and `docs/design/website3/` for the approved brief and storyboard.
+See `CLAUDE.md` for architecture and design rules, and `docs/design/redesign/REDESIGN_PLAN.md` for the concept and its reasoning.

@@ -79,15 +79,36 @@ export function knowledgeAnchors(g: Geo): { docs: Pt[]; answer: Pt; path: Pt[] }
   return { docs, answer, path: [[-0.05 * g.w, 0.72 * g.h], [0.2 * g.w, 0.66 * g.h], ...docs, answer, [1.05 * g.w, 0.46 * g.h]] };
 }
 
+/** Arc-length fraction along a polyline where it first crosses `v` on a segment running along the other axis
+ *  (x for landscape, y for portrait). Exact for non-smoothed paths, which resample linearly by length. */
+function fractionAt(path: Pt[], v: number, portrait: boolean) {
+  const a = portrait ? 1 : 0, b = portrait ? 0 : 1;
+  let total = 0;
+  const lens = path.slice(1).map((p, i) => Math.hypot(p[0] - path[i][0], p[1] - path[i][1]));
+  lens.forEach((l) => (total += l));
+  let run = 0;
+  for (let i = 0; i < lens.length; i++) {
+    const p0 = path[i], p1 = path[i + 1];
+    const lo = Math.min(p0[a], p1[a]), hi = Math.max(p0[a], p1[a]);
+    if (Math.abs(p0[b] - p1[b]) < 1e-6 && v >= lo && v <= hi) return (run + Math.abs(v - p0[a])) / total;
+    run += lens[i];
+  }
+  return 0.5;
+}
+
 export function routeAnchors(g: Geo): { path: Pt[]; branches: { from: number; to: Pt }[] } {
   const P = (x: number, y: number): Pt => [x * g.w, y * g.h];
   if (g.portrait) {
-    const path = [P(0.1, -0.05), P(0.1, 0.36), P(0.45, 0.36), P(0.45, 0.62), P(0.16, 0.62), P(0.16, 0.86), P(0.5, 0.86), P(0.5, 1.05)];
-    const branches = [0.3, 0.36, 0.5, 0.56, 0.62, 0.84, 0.9].map((f, k) => ({ from: f, to: P(0.92, [0.41, 0.47, 0.54, 0.68, 0.74, 0.8, 0.93][k]) }));
+    const path = [P(0.1, -0.05), P(0.1, 0.42), P(0.45, 0.42), P(0.45, 0.64), P(0.16, 0.64), P(0.16, 0.86), P(0.5, 0.86), P(0.5, 1.05)];
+    const branches = [0.47, 0.53, 0.59, 0.69, 0.75, 0.81, 0.89].map((y) => ({ from: fractionAt(path, y * g.h, true), to: P(0.92, y) }));
     return { path, branches };
   }
-  const path = [P(-0.05, 0.72), P(0.22, 0.72), P(0.22, 0.5), P(0.46, 0.5), P(0.46, 0.74), P(0.7, 0.74), P(0.7, 0.5), P(1.05, 0.5)];
-  const branches = [0.33, 0.4, 0.47, 0.6, 0.66, 0.84, 0.9].map((f, k) => ({ from: f, to: P(0.3 + k * 0.095, k % 2 ? 0.26 : 0.9) }));
+  // Landscape: the route stays right of the text column and below it, so nothing crosses the copy.
+  const path = [P(-0.05, 0.82), P(0.44, 0.82), P(0.44, 0.52), P(0.62, 0.52), P(0.62, 0.74), P(0.8, 0.74), P(0.8, 0.52), P(1.05, 0.52)];
+  const branches = Array.from({ length: 7 }, (_, k) => {
+    const x = (0.48 + k * 0.075) * g.w;
+    return { from: fractionAt(path, x, false), to: [x, (k % 2 ? 0.26 : 0.92) * g.h] as Pt };
+  });
   return { path, branches };
 }
 
@@ -142,4 +163,39 @@ export function nearest(buf: Float32Array, n: number, p: Pt) {
     if (d < bd) { bd = d; best = i; }
   }
   return best;
+}
+
+/* ------------------------------------------------------------------ shapes measured from the DOM */
+
+export type Rect = { x: number; y: number; w: number; h: number };
+
+/** Products: the line enters, traces the outline of a screen and its header rule, then leaves.
+ *  The rectangle comes from the DOM, so the drawing and the markup inside it always agree. */
+export function framePath(g: Geo, r: Rect, header: number): Pt[] {
+  const L = r.x, R = r.x + r.w, T = r.y, B = r.y + r.h, H = T + header;
+  if (g.portrait) return [[0.1 * g.w, -0.05 * g.h], [0.1 * g.w, T], [R, T], [R, B], [L, B], [L, T], [L, H], [R, H], [1.05 * g.w, H]];
+  const ey = clamp(0.72 * g.h, H + 12, B - 12);
+  return [[-0.05 * g.w, ey], [L, ey], [L, T], [R, T], [R, B], [L, B], [L, H], [R, H], [1.05 * g.w, H]];
+}
+
+/** The map's main channel: one straight bus the region cards hang from. */
+export function busPath(g: Geo, at: number): Pt[] {
+  return g.portrait ? [[0.1 * g.w, -0.05 * g.h], [0.1 * g.w, 1.05 * g.h]] : [[-0.05 * g.w, at], [1.05 * g.w, at]];
+}
+
+/** Fraction along a bus (evenly resampled, so linear) at a given x (landscape) or y (portrait). */
+export function busFraction(g: Geo, v: number) {
+  return g.portrait ? (v + 0.05 * g.h) / (1.1 * g.h) : (v + 0.05 * g.w) / (1.1 * g.w);
+}
+
+/** Where the rail runs once the page returns to normal flow. Must match `--rail` in OneLine.module.css. */
+export function railX(g: Geo) {
+  return g.portrait ? 0.1 * g.w : clamp(0.03 * g.w, 22, 44);
+}
+
+/** The rail, optionally bending right at `bend.y` to run under the contact field. */
+export function railPath(g: Geo, bend?: { y: number; x2: number }): Pt[] {
+  const x = railX(g);
+  if (!bend || bend.y > 1.05 * g.h) return [[x, -0.05 * g.h], [x, 1.05 * g.h]];
+  return [[x, -0.05 * g.h], [x, bend.y], [bend.x2, bend.y]];
 }

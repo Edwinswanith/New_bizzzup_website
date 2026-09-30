@@ -7,7 +7,7 @@
   transition: background 160ms var(--ease), color 160ms var(--ease), border-color 160ms var(--ease);
 }
 .row button:hover { border-color: var(--cobalt); color: var(--cobalt); }
-.row button[aria-pressed="true"] { background: var(--cobalt); border-color: var(--cobalt); color: #fff; }
+.row button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--vellum); }
 .count { color: var(--pewter); margin: 14px 0; }
 .list { list-style: none; border-top: 1px solid var(--line-strong); }
 .item { display: grid; grid-template-columns: 56px minmax(0, 1fr) minmax(0, 300px); gap: 20px; padding: 22px 0; border-bottom: 1px solid var(--line-strong); text-decoration: none; transition: background 160ms var(--ease); }

@@ -1,33 +1,41 @@
-/* Website3 design system. Mineral base, three signal colors, serif + mono. */
+/* Tech Cogniverse design system: One Line. */
 :root {
-  /* Mineral base */
-  --limestone: #eceae4; /* page canvas */
-  --cool: #e4e6e7; /* pale cool gray band */
-  --ivory: #f6f3ec; /* reading panels, form */
-  --sand: #dcd3c4;
-  --clay: #b49a85;
-  --line: #cbc5ba; /* hairlines */
-  --line-strong: #a9a297;
+  /* One Line system: vellum canvas, graphite ink, one vermilion signal. */
+  --vellum: #e6e9ea; /* page canvas */
+  --paper: #f4f5f5; /* reading panels, form fields */
+  --signal: #f2461e; /* the Line and nothing decorative; graphics only */
+  --signal-ink: #b8300f; /* text-safe signal, 4.9:1 on vellum */
+  --hair: rgba(22, 25, 29, 0.16);
 
-  /* Text (contrast on limestone) */
-  --ink: #1c1d21; /* 13.9:1 */
-  --graphite: #46484e; /* 7.5:1 */
-  --pewter: #65666b; /* 4.7:1 */
+  /* Legacy names used by the page CSS, remapped onto the One Line palette. */
+  --limestone: var(--vellum);
+  --cool: #dde1e2;
+  --ivory: var(--paper);
+  --sand: #d3d8da;
+  --clay: #9aa0a6;
+  --line: rgba(22, 25, 29, 0.14);
+  --line-strong: rgba(22, 25, 29, 0.3);
 
-  /* Signals: structure, flow, action */
-  --cobalt: #3445d9; /* structure; 5.8:1, text-safe */
-  --cobalt-soft: #dfe2f7;
-  --teal: #0f8c80; /* flow marks, >=3:1 for graphics */
-  --teal-text: #0b6e66; /* 5.0:1 */
-  --teal-soft: #d8ece8;
-  --amber: #c9622a; /* action marks, >=3:1 for graphics */
-  --amber-text: #9a4a1c; /* 5.1:1 */
-  --amber-soft: #f4e0d2;
+  --ink: #16191d; /* 14.6:1 */
+  --graphite: #4a4f56; /* 7.0:1 */
+  --pewter: #62676e; /* 5.0:1 */
 
-  --serif: var(--font-serif), "Iowan Old Style", Georgia, serif;
-  --mono: var(--font-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  /* Emphasis and structure use the signal; gates and human steps are graphite, drawn dashed. */
+  --cobalt: var(--signal-ink);
+  --cobalt-soft: rgba(242, 70, 30, 0.14);
+  --teal: var(--signal);
+  --teal-text: var(--signal-ink);
+  --teal-soft: rgba(242, 70, 30, 0.1);
+  --amber: #4a4f56;
+  --amber-text: #4a4f56;
+  --amber-soft: #dde1e2;
 
-  --gutter: clamp(16px, 4vw, 56px);
+  --display: var(--f-display), "Arial Narrow", sans-serif;
+  --sans: var(--f-body), system-ui, sans-serif;
+  --serif: var(--sans); /* legacy name: body text */
+  --mono: var(--f-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --gutter: clamp(16px, 4vw, 48px);
   --max: 1440px;
   --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
   --header-h: 64px;
@@ -42,10 +50,9 @@ body {
   margin: 0;
   background: var(--limestone);
   color: var(--ink);
-  font-family: var(--serif);
-  font-size: 19px;
+  font-family: var(--sans);
+  font-size: 18px;
   line-height: 1.55;
-  font-optical-sizing: auto;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
@@ -53,20 +60,20 @@ body {
 img, svg, video, canvas { display: block; max-width: 100%; }
 a { color: inherit; }
 button, input, select, textarea { font: inherit; color: inherit; }
-h1, h2, h3, h4 { font-weight: 400; margin: 0; line-height: 1.08; letter-spacing: -0.015em; text-wrap: balance; }
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; margin: 0; line-height: 1; letter-spacing: -0.035em; text-wrap: balance; }
 p { margin: 0; text-wrap: pretty; }
 ul, ol { margin: 0; padding: 0; }
 
-:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 3px; border-radius: 2px; }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 2px; }
 ::selection { background: var(--cobalt-soft); }
 
 /* Shared primitives */
 .wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
 .mono {
   font-family: var(--mono);
-  font-size: 12.5px;
+  font-size: 11.5px;
   line-height: 1.5;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -85,7 +92,7 @@ ul, ol { margin: 0; padding: 0; }
 /* Links and actions */
 .link-arrow {
   display: inline-flex; align-items: center; gap: 0.5em;
-  font-family: var(--mono); font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase;
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
   text-decoration: none; color: var(--ink);
   border-bottom: 1px solid var(--line-strong); padding-bottom: 3px;
   transition: border-color 160ms var(--ease), color 160ms var(--ease);
@@ -97,14 +104,14 @@ ul, ol { margin: 0; padding: 0; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.6em;
   min-height: 48px; padding: 0 22px;
-  font-family: var(--mono); font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase;
-  text-decoration: none; border: 1px solid var(--ink); border-radius: 999px;
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+  text-decoration: none; border: 1px solid var(--ink); border-radius: 2px;
   background: transparent; color: var(--ink); cursor: pointer;
   transition: background 160ms var(--ease), color 160ms var(--ease), border-color 160ms var(--ease);
 }
 .btn:hover { background: var(--ink); color: var(--limestone); }
-.btn--primary { background: var(--cobalt); border-color: var(--cobalt); color: #fff; }
-.btn--primary:hover { background: #2533b0; border-color: #2533b0; color: #fff; }
+.btn--primary { background: var(--ink); border-color: var(--ink); color: var(--vellum); }
+.btn--primary:hover { background: var(--signal-ink); border-color: var(--signal-ink); color: #fff; }
 .btn[disabled] { opacity: 0.55; cursor: progress; }
 
 /* Status chips (never red/green) */
@@ -112,9 +119,9 @@ ul, ol { margin: 0; padding: 0; }
   display: inline-flex; align-items: center; gap: 8px;
   font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--graphite);
 }
-.status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--cobalt); }
-.status[data-state="progress"]::before { background: transparent; border: 1.5px solid var(--amber); }
-.status[data-state="live"]::before { background: var(--teal); }
+.status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--ink); }
+.status[data-state="progress"]::before { background: transparent; border: 1.5px dashed var(--ink); }
+.status[data-state="live"]::before { background: var(--signal); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; scroll-behavior: auto !important; }
