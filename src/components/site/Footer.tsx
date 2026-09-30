@@ -9,7 +9,7 @@ export function Footer() {
       <div className="wrap">
         <p className={styles.statement}>
           Business friction in.<br />
-          <em>Working systems out.</em>
+          <em>Working systems&nbsp;out.</em>
         </p>
         <div className={styles.grid}>
           <div>

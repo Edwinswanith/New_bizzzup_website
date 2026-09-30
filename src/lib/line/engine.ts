@@ -100,14 +100,18 @@ export function routeAnchors(g: Geo): { path: Pt[]; branches: { from: number; to
   const P = (x: number, y: number): Pt => [x * g.w, y * g.h];
   if (g.portrait) {
     const path = [P(0.1, -0.05), P(0.1, 0.42), P(0.45, 0.42), P(0.45, 0.64), P(0.16, 0.64), P(0.16, 0.86), P(0.5, 0.86), P(0.5, 1.05)];
-    const branches = [0.47, 0.53, 0.59, 0.69, 0.75, 0.81, 0.89].map((y) => ({ from: fractionAt(path, y * g.h, true), to: P(0.92, y) }));
+    // Very short phones: the same seven branches in a tighter band, clear of the metrics above and the caption below.
+    const band = (y: number) => (g.h < 620 ? 0.49 + (y - 0.47) * (0.34 / 0.42) : y);
+    const branches = [0.47, 0.53, 0.59, 0.69, 0.75, 0.81, 0.89].map(band).map((y) => ({ from: fractionAt(path, y * g.h, true), to: P(0.92, y) }));
     return { path, branches };
   }
   // Landscape: the route stays right of the text column and below it, so nothing crosses the copy.
   const path = [P(-0.05, 0.82), P(0.44, 0.82), P(0.44, 0.52), P(0.62, 0.52), P(0.62, 0.74), P(0.8, 0.74), P(0.8, 0.52), P(1.05, 0.52)];
+  // Downward ends stay clear of the chapter caption on short screens (its label sits ~30px below the node).
+  const down = Math.min(0.92, 1 - 80 / g.h);
   const branches = Array.from({ length: 7 }, (_, k) => {
     const x = (0.48 + k * 0.075) * g.w;
-    return { from: fractionAt(path, x, false), to: [x, (k % 2 ? 0.26 : 0.92) * g.h] as Pt };
+    return { from: fractionAt(path, x, false), to: [x, (k % 2 ? 0.26 : down) * g.h] as Pt };
   });
   return { path, branches };
 }
