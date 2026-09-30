@@ -490,12 +490,13 @@ export function OneLine() {
               {STEPS.map((t, i) => <li key={t} style={{ ["--i" as string]: i }}><span>{pad(i + 1)}</span>{t}</li>)}
             </ol>
             <div className={s.frameBody} aria-hidden="true">
-              <span className={s.framePrompt}>“A tiger in block print, two colours”</span>
+              <span className={s.framePrompt}>“The Tech Cogniverse logo, chest print, two colours”</span>
               <span className={s.frameTee}>
                 <svg viewBox="0 0 120 110">
                   <path d="M40 8 L16 20 L4 44 L22 52 L28 40 L28 104 L92 104 L92 40 L98 52 L116 44 L104 20 L80 8 C76 18 44 18 40 8 Z" fill="#f4f5f5" stroke="#16191d" strokeWidth="1.5" strokeLinejoin="round" />
-                  <path d="M42 50 L52 62 M50 46 L62 64 M60 46 L70 62 M70 48 L78 58 M44 70 L56 82 M56 68 L66 84 M68 68 L76 80" fill="none" stroke="#f2461e" strokeWidth="3.5" strokeLinecap="round" />
-                  <path d="M40 58 L48 74 M72 70 L80 66" fill="none" stroke="#16191d" strokeWidth="3.5" strokeLinecap="round" />
+                  {/* The print: the site mark (same path as components/site/Mark) over the wordmark. */}
+                  <path transform="translate(43.2 37.3)" d="M14.41 11.55A6.2 6.2 0 1 0 9.8 21.9H30" fill="none" stroke="#f2461e" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+                  <text className={s.teeName} x="60" y="75" textAnchor="middle">Tech Cogniverse</text>
                 </svg>
               </span>
               <span className={s.frameRows} />
