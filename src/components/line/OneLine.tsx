@@ -82,6 +82,8 @@ export function OneLine() {
       host.querySelectorAll<HTMLElement>("[data-branch]").forEach((el, i) => {
         el.style.left = `${ra.branches[i].to[0]}px`;
         el.style.top = `${ra.branches[i].to[1]}px`;
+        // Landscape branches that grow upward end above the route: label above the node, clear of the line.
+        el.toggleAttribute("data-up", !g.portrait && ra.branches[i].to[1] < g.h / 2);
       });
       let wx = 0.44 * g.w;
       host.querySelectorAll<HTMLElement>("[data-word]").forEach((el) => {
