@@ -22,10 +22,16 @@ const STEPS = ["Design", "Customize", "Details", "Payment"];
 const SIGNAL = "#F2461E";
 const VELLUM = "#E6E9EA";
 const FRAME_HEADER = 44;
+/** Brand-flight curves: [c1x, c1y, c2x, c2y] as fractions of the travel, for the mark and the name. */
+// Tuned against the copy at 1280, 1440 and 1920 wide: out along the band under the header, then a straight drop onto
+// the shirt. The headline and nav are never crossed; the frame chrome is, lifted and in front, on the way down.
+const FLY: number[][] = [[0.72, 0, 1.02, 0.04], [0.66, 0.05, 1, 0.08]];
 const GATES = new Set(["Human Review Checkpoints", "Fallback Flows"]);
 
 type Sec = { el: HTMLElement; top: number; height: number; p: number };
 type Branch = { from: number; to: [number, number] };
+/** One travelling part of the brand: where it starts and lands in viewport px, as translate (x, y) + uniform scale. */
+type Leg = { el: HTMLElement | SVGElement; w: number; h: number; from: [number, number, number]; to: [number, number, number]; bend: number };
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -55,6 +61,12 @@ export function OneLine() {
     let mapBranches: Branch[] = [];
     let field = { top: 0, bottom: 0, left: 0, right: 0 };
     const secs: Record<string, Sec> = {};
+    // The brand flight: header lockup -> DesignT shirt print, driven by the products chapter's own progress.
+    const flight = host.querySelector<HTMLElement>("[data-flight]")!;
+    const print = host.querySelector<SVGGElement>("[data-print]")!;
+    let legs: Leg[] = [];
+    let brandEls: HTMLElement[] = [];
+    let flightKey = "";
     let dpr = 1;
 
     /* ---------------------------------------------------------- layout, once per resize */
@@ -110,6 +122,8 @@ export function OneLine() {
         field = { top: r.top + scrollY, bottom: r.bottom + scrollY, left: r.left, right: r.right };
       }
 
+      measureFlight();
+
       host.querySelectorAll<HTMLElement>("[data-sec]").forEach((el) => {
         const r = el.getBoundingClientRect();
         secs[el.dataset.sec!] = { el, top: r.top + scrollY, height: r.height, p: -1 };
@@ -129,6 +143,92 @@ export function OneLine() {
     let raf: number | null = null;
     let last = 0;
     let drawnKey = "";
+
+    /* ---------------------------------------------------------- the brand flight */
+    // Every coordinate is measured at runtime. Source: the header lockup (sticky, so its viewport rect is fixed).
+    // Destination: the print anchors inside the shirt SVG, read relative to the pinned stage (= viewport while pinned).
+    function textBox(el: Element) {
+      const r = document.createRange();
+      r.selectNodeContents(el);
+      return r.getBoundingClientRect();
+    }
+    function measureFlight() {
+      legs = [];
+      const hMark = document.querySelector<SVGElement>("[data-brand] svg");
+      const hWord = document.querySelector<HTMLElement>("[data-brand-word]");
+      brandEls = [hMark, hWord].filter(Boolean) as HTMLElement[];
+      const anchor = host.querySelector<SVGGraphicsElement>("[data-print-anchor]")!;
+      const pWord = host.querySelector<SVGTextElement>("[data-print-word]")!;
+      const fMark = flight.querySelector<SVGElement>("[data-fly-mark]")!;
+      const fWord = flight.querySelector<HTMLElement>("[data-fly-word]")!;
+      fMark.style.transform = fWord.style.transform = "none";
+      const stage = anchor.closest<HTMLElement>("[data-stage]")!.getBoundingClientRect();
+      const a = anchor.getBoundingClientRect();
+      const mBox = fMark.getBoundingClientRect();
+      const toMark: [number, number, number] = [a.left - stage.left, a.top - stage.top, a.width / mBox.width];
+      if (g.portrait || !hMark || !hWord) {
+        // Phones: a short drop inside the section (a diagonal from the header would cross the whole screen).
+        const k = 1.35;
+        legs.push({ el: fMark, w: mBox.width, h: mBox.height, bend: 0, to: toMark,
+          from: [toMark[0] - (mBox.width * toMark[2] * (k - 1)) / 2, toMark[1] - 56, toMark[2] * k] });
+        fWord.style.display = "none";
+      } else {
+        fWord.style.display = "";
+        const hm = hMark.getBoundingClientRect();
+        legs.push({ el: fMark, w: mBox.width, h: mBox.height, bend: -1, from: [hm.left, hm.top, hm.width / mBox.width], to: toMark });
+        // The name lands by its text box: same face, weight and tracking at both ends, so a uniform scale maps one onto the other.
+        const own = fWord.getBoundingClientRect(), ot = textBox(fWord);
+        const dx = ot.left - own.left, dy = ot.top - own.top;
+        const src = textBox(hWord), dst = pWord.getBoundingClientRect();
+        const s0 = src.width / ot.width, s1 = dst.width / ot.width;
+        legs.push({ el: fWord, w: own.width, h: own.height, bend: 1,
+          from: [src.left - dx * s0, src.top - dy * s0, s0],
+          to: [dst.left - stage.left - dx * s1, dst.top - stage.top - dy * s1, s1] });
+      }
+      flightKey = "";
+    }
+
+    function flyFrame(pp: number) {
+      if (!legs.length) return;
+      // Desktop: lift 0-.2, travel .2-.6, recompose .6-.85, settle .85-1 of t, over pp .60-.92 of the pinned chapter.
+      const t = g.portrait ? clamp((pp - 0.78) / 0.14) : clamp((pp - 0.6) / 0.32);
+      const key = t.toFixed(4) + (g.portrait ? "p" : "l") + (t >= 1 ? pp.toFixed(3) : "");
+      if (key === flightKey) return;
+      flightKey = key;
+      const on = t > 0 && t < 1;
+      flight.toggleAttribute("data-on", on);
+      // Hand-off masking only: the clone and the print are pixel-aligned at t = 1, so this is a 4% crossfade, not the transition.
+      const handoff = sstep(0.96, 1, t);
+      print.style.opacity = String(t <= 0 ? 0 : handoff);
+      flight.style.opacity = String(1 - handoff);
+      if (!g.portrait) {
+        const back = t <= 0 ? 1 : t < 1 ? 0 : sstep(0.92, 0.98, pp);
+        brandEls.forEach((el) => (el.style.opacity = back === 1 ? "" : String(back)));
+      }
+      if (!on) return;
+      const lift = sstep(0, 0.2, t), u = sstep(0.2, 0.85, t), land = sstep(0.85, 1, t);
+      const depth = lift * (1 - land);
+      for (const L of legs) {
+        const [x0, y0, s0] = L.from, [x1, y1, s1] = L.to;
+        // Curved path (cubic): control points as fractions of the travel (dx, dy); the two parts use slightly different
+        // curves, so they bow apart in flight and recombine as the stacked print.
+        const dx = x1 - x0, dy = y1 - y0;
+        const k = FLY[L.bend < 0 ? 0 : 1];
+        const ax = x0 + dx * k[0], ay = y0 + dy * k[1], bx = x0 + dx * k[2], by = y0 + dy * k[3];
+        const v = 1 - u;
+        const x = v * v * v * x0 + 3 * v * v * u * ax + 3 * v * u * u * bx + u * u * u * x1;
+        const y = v * v * v * y0 + 3 * v * v * u * ay + 3 * v * u * u * by + u * u * u * y1 - 8 * lift * (1 - u)
+          + L.bend * 16 * Math.sin(Math.PI * u); // mark rides above, name below: never on top of each other
+        const sc = Math.exp(Math.log(s0) + (Math.log(s1) - Math.log(s0)) * u) * (1 + 0.06 * depth);
+        const rz = (L.bend || -1) * 4 * Math.sin(Math.PI * u);
+        const rx = 16 * depth * (1 - u * 0.4);
+        L.el.style.transform =
+          `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) scale(${sc.toFixed(4)}) ` +
+          `translate(${L.w / 2}px, ${L.h / 2}px) perspective(500px) rotateX(${rx.toFixed(2)}deg) rotate(${rz.toFixed(2)}deg) translate(${-L.w / 2}px, ${-L.h / 2}px)`;
+        L.el.style.filter = depth > 0.01
+          ? `drop-shadow(0 ${(10 * depth).toFixed(1)}px ${(14 * depth).toFixed(1)}px rgba(22, 25, 29, ${(0.22 * depth).toFixed(3)}))` : "";
+      }
+    }
 
     const progress = (sec: Sec, y: number) => clamp((y - sec.top) / Math.max(1, sec.height - g.h));
     const idx = (f: number) => Math.round(clamp(f) * (g.n - 1));
@@ -152,6 +252,7 @@ export function OneLine() {
       const ph = progress(hero, y), pv = progress(voice, y), pk = progress(knowledge, y), po = progress(ops, y);
       const pp = progress(products, y), pm = progress(map, y);
       setP(hero, ph); setP(voice, pv); setP(knowledge, pk); setP(ops, po); setP(products, pp); setP(map, pm);
+      flyFrame(pp);
 
       let branches: Branch[] = [];
       let grow = 0;
@@ -332,6 +433,12 @@ export function OneLine() {
       });
     }
 
+    function resetFlight() {
+      flight.removeAttribute("data-on");
+      print.style.opacity = "";
+      brandEls.forEach((el) => (el.style.opacity = ""));
+    }
+
     function applyMode() {
       const still = reduce.matches;
       host.dataset.mode = still ? "still" : "live";
@@ -342,6 +449,7 @@ export function OneLine() {
         raf = null;
         host.querySelectorAll<HTMLElement>("[data-sec]").forEach((el) => el.style.setProperty("--p", "1"));
         [...docEls, ...cardEls].forEach((el) => (el.dataset.lit = "1"));
+        resetFlight();
         drawStills();
       } else {
         addEventListener("scroll", onScroll, { passive: true });
@@ -373,6 +481,7 @@ export function OneLine() {
       host.removeEventListener("input", onType);
       reduce.removeEventListener("change", applyMode);
       if (raf !== null) cancelAnimationFrame(raf);
+      resetFlight();
     };
   }, []);
 
@@ -382,6 +491,13 @@ export function OneLine() {
   return (
     <div ref={root} className={s.root} data-mode="live">
       <canvas data-line className={s.line} aria-hidden="true" />
+      {/* The brand's travelling copy (visual only): the header logo itself never moves. */}
+      <div data-flight className={s.flight} aria-hidden="true">
+        <svg data-fly-mark viewBox="0 0 32 32" className={s.flyMark}>
+          <path d="M14.41 11.55A6.2 6.2 0 1 0 9.8 21.9H30" fill="none" stroke="#f2461e" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span data-fly-word className={s.flyWord}>Tech Cogniverse</span>
+      </div>
 
       {/* 00 · Hero: the statement is readable at once; the tangle runs between two type layers. */}
       <section data-sec="hero" className={`${s.sec} ${s.hero}`} aria-labelledby="h-title">
@@ -495,8 +611,11 @@ export function OneLine() {
                 <svg viewBox="0 0 120 110">
                   <path d="M40 8 L16 20 L4 44 L22 52 L28 40 L28 104 L92 104 L92 40 L98 52 L116 44 L104 20 L80 8 C76 18 44 18 40 8 Z" fill="#f4f5f5" stroke="#16191d" strokeWidth="1.5" strokeLinejoin="round" />
                   {/* The print: the site mark (same path as components/site/Mark) over the wordmark. */}
-                  <path transform="translate(43.2 37.3)" d="M14.41 11.55A6.2 6.2 0 1 0 9.8 21.9H30" fill="none" stroke="#f2461e" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
-                  <text className={s.teeName} x="60" y="75" textAnchor="middle">Tech Cogniverse</text>
+                  <g data-print>
+                    <rect data-print-anchor x="43.2" y="37.3" width="32" height="32" fill="none" />
+                    <path transform="translate(43.2 37.3)" d="M14.41 11.55A6.2 6.2 0 1 0 9.8 21.9H30" fill="none" stroke="#f2461e" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+                    <text data-print-word className={s.teeName} x="60" y="75" textAnchor="middle">Tech Cogniverse</text>
+                  </g>
                 </svg>
               </span>
               <span className={s.frameRows} />

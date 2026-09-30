@@ -28,9 +28,9 @@ export function Header() {
   return (
     <header className={styles.header} data-open={open || undefined}>
       <div className={styles.bar}>
-        <Link href="/" className={styles.logo} aria-label="Tech Cogniverse, home">
+        <Link href="/" className={styles.logo} aria-label="Tech Cogniverse, home" data-brand>
           <Mark className={styles.mark} />
-          <span className={styles.word}>Tech <em>Cogniverse</em></span>
+          <span className={styles.word} data-brand-word>Tech <em>Cogniverse</em></span>
         </Link>
         <button
           className={styles.toggle}
