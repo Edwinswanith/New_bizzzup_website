@@ -51,7 +51,7 @@ export function Header() {
               </li>
             ))}
           </ul>
-          <Link href="/#friction" className={`btn ${styles.cta}`}>
+          <Link href="/#friction" className={`btn glow ${styles.cta}`}>
             Describe your friction
           </Link>
         </nav>

@@ -110,7 +110,7 @@ export function ContactForm() {
         <input id={`${uid}-website`} name="website" tabIndex={-1} autoComplete="off" />
       </div>
       <div className={`${styles.full} ${styles.actions}`}>
-        <button type="submit" className="btn btn--primary" disabled={state.kind === "sending"}>
+        <button type="submit" className="btn btn--primary glow glow--medium" disabled={state.kind === "sending"}>
           {state.kind === "sending" ? "Sending…" : "Send it into the system"}
         </button>
         {COMPANY.calendly && <a href={COMPANY.calendly} target="_blank" rel="noopener" className="link-arrow">Or book a 20-minute call</a>}

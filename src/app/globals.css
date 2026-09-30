@@ -114,6 +114,25 @@ ul, ol { margin: 0; padding: 0; }
 .btn--primary:hover { background: var(--signal-ink); border-color: var(--signal-ink); color: #fff; }
 .btn[disabled] { opacity: 0.55; cursor: progress; }
 
+/* Glow: reserved for the path to contact (header CTA, next-step CTA, form submit). The Line reaching the button:
+   vermilion, warm amber and a cool steel, drawn as shadows so it only ever paints outside the control. */
+.glow { position: relative; isolation: isolate; --glow: 0.55; }
+.glow--medium { --glow: 0.8; }
+.glow::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  box-shadow:
+    -7px 3px 16px -4px rgba(255, 158, 69, 0.9),
+    0 6px 16px -5px rgba(242, 70, 30, 0.85),
+    7px -3px 16px -4px rgba(120, 150, 165, 0.9),
+    0 0 0 1px rgba(242, 70, 30, 0.22);
+  opacity: 0; transition: opacity 260ms var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .glow:hover::before { opacity: var(--glow); }
+}
+.glow:focus-visible::before { opacity: var(--glow); }
+.glow[disabled]::before { opacity: 0; }
+
 /* Status chips (never red/green) */
 .status {
   display: inline-flex; align-items: center; gap: 8px;
