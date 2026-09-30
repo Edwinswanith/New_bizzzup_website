@@ -102,14 +102,15 @@
 }
 .note { margin: 0; color: var(--graphite-3); max-width: 46ch; line-height: 1.5; text-transform: none; letter-spacing: 0.02em; }
 
-/* Short desktop viewports (the frame is 58vh): tighter controls. */
-@media (min-width: 900px) and (max-height: 760px) {
+/* Short desktop viewports (the frame is 58vh): tighter controls and summary rows. */
+@media (min-width: 900px) and (max-height: 800px) {
   .controls { gap: 5px; }
   .ctl { padding-bottom: 5px; }
   .swatch { width: 24px; height: 24px; }
   .chip { min-height: 26px; }
   .square { min-width: 26px; }
-  .summary > div { padding: 4px 0; }
+  .summary > div { padding: 3px 0; }
+  .summary dd { font-size: 14px; }
   .field { padding: 4px 0 12px; }
 }
 
@@ -136,3 +137,13 @@
   .cta { min-height: 32px; padding: 0 12px; font-size: 10px; }
   .sizeTag { top: 4px; right: 4px; font-size: 9px; }
 }
+
+/* 320px phones (QA): the controls drop their visual labels (each group keeps its aria-label; the swatches, sizes and
+   +/- read on their own) so every control fits one row; anything still taller scrolls inside the frame. */
+@media (max-width: 340px) {
+  .controls .lab { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .ctl { grid-template-columns: 1fr; padding-bottom: 5px; }
+  .controls { gap: 4px; }
+  .stage { overflow-x: hidden; overflow-y: auto; scrollbar-width: none; }
+}
+

@@ -197,7 +197,7 @@ export function OneLine() {
       if (!legs.length) return;
       // Desktop: lift 0-.2, travel .2-.6, recompose .6-.85, settle .85-1 of t, over pp .60-.92 of the pinned chapter.
       const t = g.portrait ? clamp((pp - 0.78) / 0.14) : clamp((pp - 0.6) / 0.32);
-      const key = t.toFixed(4) + (g.portrait ? "p" : "l") + (t >= 1 ? pp.toFixed(3) : "");
+      const key = t.toFixed(4) + (g.portrait ? "p" : "l") + (t >= 1 ? pp.toFixed(4) : "");
       if (key === flightKey) return;
       flightKey = key;
       const on = t > 0 && t < 1;
@@ -393,6 +393,22 @@ export function OneLine() {
       ptr.tx = e.clientX; ptr.ty = e.clientY; ptr.onT = 1; wake();
     };
     const onLeave = () => { ptr.onT = 0; wake(); };
+    // Keyboard focus can land on a control whose chapter hasn't revealed it yet (opacity from --p). Jump that chapter
+    // to the point where the control is fully shown, so focus is never on something invisible.
+    const SHOWN: Record<string, number> = { products: 1, map: 0.6 };
+    const onFocus = (e: FocusEvent) => {
+      const el = e.target as HTMLElement | null;
+      const secEl = el?.closest<HTMLElement>("[data-sec]");
+      if (!el || !secEl || reduce.matches) return;
+      let o = 1;
+      for (let x: HTMLElement | null = el; x && x !== secEl; x = x.parentElement) o *= +getComputedStyle(x).opacity;
+      if (o > 0.5) return;
+      const sec = secs[secEl.dataset.sec!];
+      scrollTo(0, sec.top + (SHOWN[secEl.dataset.sec!] ?? 1) * (sec.height - g.h));
+      targetY = shownY = scrollY;
+      drawnKey = "";
+      frame(shownY, performance.now());
+    };
     const onType = (e: Event) => {
       if (!(e.target instanceof HTMLTextAreaElement)) return;
       energy = Math.min(1, energy + 0.35);
@@ -476,6 +492,7 @@ export function OneLine() {
     addEventListener("pointermove", onPointer, { passive: true });
     document.addEventListener("pointerleave", onLeave);
     host.addEventListener("input", onType);
+    host.addEventListener("focusin", onFocus);
     reduce.addEventListener("change", applyMode);
     document.fonts?.ready.then(() => { drawnKey = ""; applyMode(); });
     applyMode();
@@ -486,6 +503,7 @@ export function OneLine() {
       removeEventListener("pointermove", onPointer);
       document.removeEventListener("pointerleave", onLeave);
       host.removeEventListener("input", onType);
+      host.removeEventListener("focusin", onFocus);
       reduce.removeEventListener("change", applyMode);
       if (raf !== null) cancelAnimationFrame(raf);
       resetFlight();
