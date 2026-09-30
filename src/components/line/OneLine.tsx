@@ -14,11 +14,11 @@ import {
   COMPANY, PROCESS, PROCESS_PROMISE, ENGAGEMENT_MODELS, PRACTICES, PRACTICES_INTRO, CERTIFICATION_NOTE, TESTIMONIALS,
 } from "@/content/company";
 import { ContactForm } from "@/components/site/ContactForm";
+import { DesignTFlow } from "./DesignTFlow";
 import s from "./OneLine.module.css";
 
 const WORDS = ["I", "need", "to", "see", "a", "doctor", "on", "Thursday", "morning."];
 const DOCS = ["Agreement v1", "Agreement v2", "Scanned notice · OCR", "Case law · Indian Kanoon"];
-const STEPS = ["Design", "Customize", "Details", "Payment"];
 const SIGNAL = "#F2461E";
 const VELLUM = "#E6E9EA";
 const FRAME_HEADER = 44;
@@ -64,6 +64,7 @@ export function OneLine() {
     // The brand flight: header lockup -> DesignT shirt print, driven by the products chapter's own progress.
     const flight = host.querySelector<HTMLElement>("[data-flight]")!;
     const print = host.querySelector<SVGGElement>("[data-print]")!;
+    const flowBody = host.querySelector<HTMLElement>("[data-body]");
     let legs: Leg[] = [];
     let brandEls: HTMLElement[] = [];
     let flightKey = "";
@@ -159,12 +160,16 @@ export function OneLine() {
       brandEls = [hMark, hWord].filter(Boolean) as HTMLElement[];
       const anchor = host.querySelector<SVGGraphicsElement>("[data-print-anchor]")!;
       const pWord = host.querySelector<SVGTextElement>("[data-print-word]")!;
+      const flowStage = host.querySelector<HTMLElement>("#dt-panel");
+      flowStage?.setAttribute("data-measuring", ""); // measure the shirt as it sits in Design, whatever step is open
       const fMark = flight.querySelector<SVGElement>("[data-fly-mark]")!;
       const fWord = flight.querySelector<HTMLElement>("[data-fly-word]")!;
       fMark.style.transform = fWord.style.transform = "none";
       const stage = anchor.closest<HTMLElement>("[data-stage]")!.getBoundingClientRect();
       const a = anchor.getBoundingClientRect();
       const mBox = fMark.getBoundingClientRect();
+      const pWordBox = pWord.getBoundingClientRect();
+      flowStage?.removeAttribute("data-measuring");
       const toMark: [number, number, number] = [a.left - stage.left, a.top - stage.top, a.width / mBox.width];
       if (g.portrait || !hMark || !hWord) {
         // Phones: a short drop inside the section (a diagonal from the header would cross the whole screen).
@@ -179,7 +184,7 @@ export function OneLine() {
         // The name lands by its text box: same face, weight and tracking at both ends, so a uniform scale maps one onto the other.
         const own = fWord.getBoundingClientRect(), ot = textBox(fWord);
         const dx = ot.left - own.left, dy = ot.top - own.top;
-        const src = textBox(hWord), dst = pWord.getBoundingClientRect();
+        const src = textBox(hWord), dst = pWordBox;
         const s0 = src.width / ot.width, s1 = dst.width / ot.width;
         legs.push({ el: fWord, w: own.width, h: own.height, bend: 1,
           from: [src.left - dx * s0, src.top - dy * s0, s0],
@@ -197,6 +202,8 @@ export function OneLine() {
       flightKey = key;
       const on = t > 0 && t < 1;
       flight.toggleAttribute("data-on", on);
+      // The flight lands on the Design state: back in its range, the order-flow demo restarts from Design.
+      if (t < 1 && flowBody && flowBody.dataset.step !== "0") flowBody.dispatchEvent(new Event("designt:reset"));
       // Hand-off masking only: the clone and the print are pixel-aligned at t = 1, so this is a 4% crossfade, not the transition.
       const handoff = sstep(0.96, 1, t);
       print.style.opacity = String(t <= 0 ? 0 : handoff);
@@ -602,24 +609,7 @@ export function OneLine() {
           </div>
           <div data-frame className={s.frame}>
             <p className={s.frameBar}>{designt.name} · order flow</p>
-            <ol className={s.frameSteps}>
-              {STEPS.map((t, i) => <li key={t} style={{ ["--i" as string]: i }}><span>{pad(i + 1)}</span>{t}</li>)}
-            </ol>
-            <div className={s.frameBody} aria-hidden="true">
-              <span className={s.framePrompt}>“The Tech Cogniverse logo, chest print, two colours”</span>
-              <span className={s.frameTee}>
-                <svg viewBox="0 0 120 110">
-                  <path d="M40 8 L16 20 L4 44 L22 52 L28 40 L28 104 L92 104 L92 40 L98 52 L116 44 L104 20 L80 8 C76 18 44 18 40 8 Z" fill="#f4f5f5" stroke="#16191d" strokeWidth="1.5" strokeLinejoin="round" />
-                  {/* The print: the site mark (same path as components/site/Mark) over the wordmark. */}
-                  <g data-print>
-                    <rect data-print-anchor x="43.2" y="37.3" width="32" height="32" fill="none" />
-                    <path transform="translate(43.2 37.3)" d="M14.41 11.55A6.2 6.2 0 1 0 9.8 21.9H30" fill="none" stroke="#f2461e" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
-                    <text data-print-word className={s.teeName} x="60" y="75" textAnchor="middle">Tech Cogniverse</text>
-                  </g>
-                </svg>
-              </span>
-              <span className={s.frameRows} />
-            </div>
+            <DesignTFlow />
           </div>
           <p className={s.caption}>Illustration of DesignT: a prompt becomes artwork, then a four-step checkout.</p>
         </div>

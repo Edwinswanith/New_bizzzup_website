@@ -114,11 +114,18 @@
 .frameSteps { list-style: none; margin: 0; padding: 18px 16px 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .frameSteps li {
   --b: clamp(0, (var(--p, 0) - 0.56 - var(--i) * 0.05) * 10, 1);
-  display: flex; gap: 8px; align-items: center; padding: 7px 10px; border: 1px solid var(--graphite); background: var(--vellum);
-  opacity: var(--b); transform: translateY(calc((1 - var(--b)) * 8px));
+  display: flex; border: 1px solid var(--graphite); background: var(--vellum); flex: none;
+  opacity: var(--b); transform: translateY(calc((1 - var(--b)) * 8px)); transition: background 160ms ease, color 160ms ease;
 }
-.frameSteps li:first-child { background: var(--graphite); color: var(--vellum); }
+.frameSteps button {
+  display: flex; gap: 8px; align-items: center; padding: 7px 10px; margin: 0; border: 0; background: none; color: inherit; cursor: pointer;
+  font: inherit; letter-spacing: inherit; text-transform: inherit;
+}
+.frameSteps li[data-active] { background: var(--graphite); color: var(--vellum); }
+.frameSteps li:not([data-active]):hover { background: var(--paper); }
+.frameSteps li[data-done] { border-color: var(--graphite-3); color: var(--graphite-2); }
 .frameSteps span { color: var(--signal); }
+.frameSteps li[data-done] span { color: var(--signal-ink); }
 .frameBody { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); grid-template-rows: auto 1fr; gap: 14px; padding: 18px 16px 16px; opacity: clamp(0, (var(--p, 0) - 0.74) * 8, 1); }
 .framePrompt { grid-column: 1 / -1; font-family: var(--display); font-weight: 600; font-size: clamp(17px, 1.5vw, 22px); letter-spacing: -0.02em; padding: 10px 12px; border-left: 3px solid var(--signal); background: var(--paper); }
 .frameTee { display: grid; place-items: center; border: 1px solid var(--hair); background: var(--paper); }
@@ -227,8 +234,9 @@
   .metrics dd { font-size: 24px; }
   .metrics dt { font-size: 9px; }
   .frame { left: 22vw; right: 16px; top: 46vh; height: 40vh; }
-  .frameSteps { padding: 12px 12px 0; gap: 6px; }
-  .frameSteps li { padding: 5px 7px; font-size: 10px; }
+  .frameSteps { padding: 12px 12px 0; gap: 6px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .frameSteps li { font-size: 10px; }
+  .frameSteps button { padding: 6px 8px; gap: 6px; }
   .frameBody { padding: 12px; gap: 10px; }
   .framePrompt { font-size: 15px; }
   .teeName { display: none; } /* ~4px on phones: the mark alone reads, the name would not */
