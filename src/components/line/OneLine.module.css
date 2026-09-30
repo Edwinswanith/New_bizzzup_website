@@ -141,7 +141,7 @@
 }
 .card {
   --a: clamp(0, (var(--p, 0) - 0.3 - var(--i) * 0.04) * 8, 1);
-  --out: clamp(0, (var(--p, 0) - 0.74) * 10, 1);
+  --out: 0;
   position: relative; display: flex; flex-direction: column; gap: 10px; min-height: 30vh; padding: 16px; background: var(--paper); border: 1px solid var(--hair);
   opacity: calc(var(--a) * (1 - var(--out))); transform: translateY(calc((1 - var(--a)) * 16px - var(--out) * 24px));
   transition: border-color 240ms ease, box-shadow 240ms ease;
@@ -155,7 +155,7 @@
 .card a { font-family: var(--display); font-weight: 600; font-size: clamp(19px, 1.6vw, 24px); letter-spacing: -0.02em; color: var(--graphite); text-decoration: none; }
 .card a::after { content: " →"; color: var(--signal); }
 .card a:hover { color: var(--signal-ink); }
-.map .copy { opacity: calc(1 - clamp(0, (var(--p, 0) - 0.78) * 8, 1)); }
+.map .copy { opacity: 1; }
 
 /* 06 to 09 · Normal flow on the rail */
 .flow { position: relative; z-index: 2; padding: 0 clamp(16px, 4vw, 48px) 0 var(--pad); }

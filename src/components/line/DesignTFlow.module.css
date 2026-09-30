@@ -90,7 +90,7 @@
 .item { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(18px, 1.5vw, 22px); letter-spacing: -0.02em; }
 .item span { color: var(--graphite-2); font-weight: 600; }
 .meta { margin: 0; color: var(--graphite-2); }
-.totals { margin: 0; }
+.totals { margin: 0; padding-right: clamp(16px, 2.5vw, 32px); }
 .totals > div { position: relative; display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; }
 .totals > div::before { top: 0; }
 .totals dd { margin: 0; font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--graphite-2); }
