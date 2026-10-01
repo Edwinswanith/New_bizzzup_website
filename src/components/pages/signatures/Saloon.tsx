@@ -70,7 +70,7 @@ export function Wide() {
 
 export function Narrow() {
   return (
-    <svg viewBox="0 0 360 104" preserveAspectRatio="xMidYMid meet" role="img" aria-label={label}>
+    <svg viewBox="0 0 360 104" preserveAspectRatio="xMinYMid meet" role="img" aria-label={label}>
       <text x="0" y="10" className={s.fade} style={d(0)}>7 branches</text>
       {SCATTER.map(([dx, dy, r], i) => (
         <g key={i} className={s.drift} style={{ ...d(0.05 + i * 0.04), ["--dx" as string]: `${dx / 2}px`, ["--dy" as string]: `${dy / 2}px`, ["--r" as string]: `${r}deg` }}>

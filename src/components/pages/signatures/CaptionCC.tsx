@@ -72,7 +72,7 @@ export function Wide() {
 
 export function Narrow() {
   return (
-    <svg viewBox="0 0 360 104" preserveAspectRatio="xMidYMid meet" role="img" aria-label={label}>
+    <svg viewBox="0 0 360 104" preserveAspectRatio="xMinYMid meet" role="img" aria-label={label}>
       <text x="0" y="10" className={s.fade} style={d(0)}>WAV</text>
       <path d={wave(0, 74, 56, 22, 4)} pathLength={1} className={`${s.wire} ${s.draw}`} style={d(0.05)} />
       <text x="90" y="10" className={s.fade} style={d(0.4)}>TA / EN</text>

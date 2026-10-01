@@ -76,7 +76,7 @@ export function Wide() {
 
 export function Narrow() {
   return (
-    <svg viewBox="0 0 360 104" preserveAspectRatio="xMidYMid meet" role="img" aria-label={label}>
+    <svg viewBox="0 0 360 104" preserveAspectRatio="xMinYMid meet" role="img" aria-label={label}>
       <text x="0" y="10" className={s.fade} style={d(0)}>Found</text>
       <g className={s.rise} style={d(0.05)}>
         <rect x="0" y="22" width="62" height="60" rx="3" className={s.boxOn} />
