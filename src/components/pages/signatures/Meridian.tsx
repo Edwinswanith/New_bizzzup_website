@@ -37,7 +37,7 @@ export function Wide() {
       <Chip x={670} y={34} w={180} h={28} t="Stock reserved" at={1.5} size={11} />
       <Chip x={670} y={68} w={180} h={28} t="Price snapshot" at={1.6} size={11} />
       <W p="M655 81 C655 116 660 118 670 118" at={1.7} ink />
-      <Chip x={670} y={104} w={180} h={28} t="Cancelled → released" at={1.75} size={11} />
+      <Chip x={670} y={104} w={196} h={28} t="Cancelled → released" at={1.75} size={11} />
       <W p="M655 81 C655 48 660 48 670 48" at={1.45} />
 
       <L x={890} t="04 · Adapters" at={1.95} />

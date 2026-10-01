@@ -242,6 +242,7 @@
   .frameSteps { padding: 10px 10px 0; gap: 6px; flex-wrap: wrap; overflow: visible; scrollbar-width: none; }
   .frameSteps li { flex: 1 1 calc(50% - 3px); min-width: 0; font-size: 9.5px; }
   .frameSteps button { width: 100%; min-height: 32px; justify-content: center; padding: 5px 6px; gap: 5px; }
+  .frameSteps li:nth-child(2) button { justify-content: flex-start; gap: 4px; padding-right: 4px; }
   .frameBody { min-height: 0; overflow: hidden; padding: 10px; gap: 9px; }
   .framePrompt { font-size: 15px; }
   .teeName { display: none; } /* ~4px on phones: the mark alone reads, the name would not */

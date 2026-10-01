@@ -48,7 +48,7 @@ export function Wide() {
       <path d={`M${cx(1) + 86} 84 C${cx(1) + 104} 84 ${cx(1) + 104} 136 ${cx(1) + 124} 136 H648 C664 136 664 76 682 76`} pathLength={1} className={`${s.wire} ${s.draw}`} style={d(1.2)} />
       <rect x="682" y="26" width="168" height="110" rx="3" className={`${s.box} ${s.fade}`} style={d(1.3)} />
       <path d="M682 92 C730 70 780 104 850 74 M730 26 V136 M800 26 V136" className={`${s.rule} ${s.fade}`} style={d(1.35)} />
-      {[[730, 62, "London"], [800, 104, "Herts"]].map(([x, y, n], i) => (
+      {[[730, 62, "London"], [790, 104, "Herts"]].map(([x, y, n], i) => (
         <g key={n} className={s.pop} style={d(1.45 + i * 0.12)}>
           <path d={`M${x} ${+y + 12} C${+x - 9} ${+y} ${+x - 9} ${+y - 10} ${x} ${+y - 10} C${+x + 9} ${+y - 10} ${+x + 9} ${y} ${x} ${+y + 12} Z`} className={i ? s.solid : s.hot} />
           <text x={+x + 12} y={+y + 4} className={s.t}>{n}</text>
