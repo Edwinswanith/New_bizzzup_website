@@ -50,7 +50,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
         {p.metrics.length > 0 && (
           <dl className={w.metrics}>
-            {p.metrics.map((m) => <div key={m.label}><dt className="mono">{m.label}</dt><dd>{m.value}</dd></div>)}
+            {p.metrics.map((m, i) => <div key={m.label} style={{ ["--i" as string]: i }}><dt className="mono">{m.label}</dt><dd>{m.value}</dd></div>)}
           </dl>
         )}
 
@@ -104,7 +104,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </div>
         <p className={w.nextProject}>
           <span className="mono">Next build</span>
-          <Link href={`/work/${next.slug}`} className={w.nextName}>{next.name} →</Link>
+          <Link href={`/work/${next.slug}`} className={w.nextName}><span className={w.nextText}>{next.name}</span>{" "}<span aria-hidden="true" className={w.nextArrow}>→</span></Link>
         </p>
       </div>
       <NextStep title="Building something similar?" />

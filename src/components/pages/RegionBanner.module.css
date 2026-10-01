@@ -1,8 +1,13 @@
 .trail ol { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
 .trail li { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; background: var(--vellum); padding: 4px 8px; border: 1px solid var(--line); }
 .trail li + li::before { content: "→ "; color: var(--pewter); }
-.trail a { text-decoration: none; color: var(--graphite); }
-.trail a:hover { color: var(--signal-ink); }
+.trail li { transition: border-color 160ms var(--ease); }
+/* The tap area reaches past the small box (about 32px tall) without changing how it looks. */
+.trail a { position: relative; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 3px; color: var(--graphite); transition: color 160ms var(--ease), text-decoration-color 160ms var(--ease); }
+.trail a::after { content: ""; position: absolute; inset: -9px -10px; }
+.trail a:hover, .trail a:focus-visible { color: var(--signal-ink); text-decoration-color: currentColor; }
+.trail li:has(> a:hover), .trail li:has(> a:focus-visible) { border-color: var(--signal); }
+@media (prefers-reduced-motion: reduce) { .trail li, .trail a { transition: none; } }
 .tag { align-self: flex-start; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 10px 14px; background: var(--vellum); border: 1px solid var(--line); }
 .mini { width: 44px; height: 26px; }
 .on { fill: var(--signal); }

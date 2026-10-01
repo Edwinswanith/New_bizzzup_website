@@ -2,6 +2,20 @@
 .client { color: var(--graphite); }
 .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0 28px; margin: 0 0 clamp(32px, 4vw, 56px); }
 .metrics div { display: flex; flex-direction: column-reverse; gap: 4px; border-top: 1px solid var(--line-strong); padding: 12px 0; }
+/* CSS only: each top rule draws left to right while its row scrolls into view, a step behind the one before,
+   and is complete once the row is fully on screen (so a row already in view on load is simply drawn).
+   Browsers without scroll-driven animations, and reduced motion, keep the plain border. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .metrics div { position: relative; border-top-color: transparent; }
+    .metrics div::before {
+      content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 1px; background: var(--line-strong);
+      transform-origin: 0 50%; animation: ruleIn linear both; animation-timeline: view();
+      animation-range: entry calc(var(--i, 0) * 10%) entry calc(60% + var(--i, 0) * 10%);
+    }
+  }
+}
+@keyframes ruleIn { from { transform: scaleX(0); } }
 .metrics dt { color: var(--pewter); }
 .metrics dd { margin: 0; font-size: clamp(28px, 2.8vw, 40px); line-height: 1.05; }
 .shot { margin: clamp(40px, 5vw, 64px) 0 0; max-width: 760px; display: grid; gap: 10px; }
@@ -17,6 +31,16 @@
 .related { display: flex; flex-wrap: wrap; gap: 12px 22px; }
 .nextProject { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 20px; padding: 28px 0 64px; border-top: 1px solid var(--line-strong); }
 .nextProject .mono { color: var(--pewter); }
-.nextName { font-size: clamp(26px, 2.6vw, 38px); text-decoration: none; }
-.nextName:hover { color: var(--cobalt); }
+.nextName { font-size: clamp(26px, 2.6vw, 38px); text-decoration: none; transition: color 160ms var(--ease), transform 120ms var(--ease); }
+/* The site's arrow-link language: a signal underline draws under the name and the arrow steps forward. */
+.nextText { background: linear-gradient(var(--signal), var(--signal)) 0 100% / 0 2px no-repeat; transition: background-size 220ms var(--ease); }
+.nextArrow { display: inline-block; transition: transform 160ms var(--ease); }
+.nextName:hover, .nextName:focus-visible { color: var(--cobalt); }
+.nextName:hover .nextText, .nextName:focus-visible .nextText { background-size: 100% 2px; }
+.nextName:hover .nextArrow, .nextName:focus-visible .nextArrow { transform: translateX(4px); }
+.nextName:active { transform: translateY(1px); }
+@media (prefers-reduced-motion: reduce) {
+  .nextName, .nextText, .nextArrow { transition: none; }
+  .nextName:hover .nextArrow, .nextName:focus-visible .nextArrow, .nextName:active { transform: none; }
+}
 @media (max-width: 899.98px) { .section { grid-template-columns: 1fr; gap: 8px; } }
