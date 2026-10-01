@@ -31,7 +31,7 @@ const GATES = new Set(["Human Review Checkpoints", "Fallback Flows"]);
 type Sec = { el: HTMLElement; top: number; height: number; p: number };
 type Branch = { from: number; to: [number, number] };
 /** One travelling part of the brand: where it starts and lands in viewport px, as translate (x, y) + uniform scale. */
-type Leg = { el: HTMLElement | SVGElement; w: number; h: number; from: [number, number, number]; to: [number, number, number]; bend: number };
+type Leg = { el: HTMLElement | SVGElement; w: number; h: number; from: [number, number, number]; to: [number, number, number]; bend: number; gx?: number };
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -50,6 +50,18 @@ export function OneLine() {
     const canvas = host.querySelector<HTMLCanvasElement>("[data-line]")!;
     const ctx = canvas.getContext("2d")!;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+    // Phones held sideways (and other very short screens): the pinned scenes cannot fit, so the resolved still layout
+    // is used, laid out on a 720px stage (CSS --vh, set by [data-short]).
+    const short = matchMedia("(orientation: landscape) and (max-height: 500px)");
+    const isStill = () => reduce.matches || short.matches;
+    // One stable height for CSS and JS. On phones 100vh is the height with the browser toolbar hidden while innerHeight
+    // is measured with it showing; scenes then sat under the toolbar and chapters unpinned before finishing. Both now use
+    // the small viewport (svh, via CSS --vh), read back from a probe so the numbers match exactly.
+    const probe = document.createElement("div");
+    probe.style.cssText = "position:fixed;left:0;top:0;width:0;height:calc(100 * var(--vh));visibility:hidden;pointer-events:none";
+    probe.setAttribute("aria-hidden", "true");
+    host.appendChild(probe);
+    const viewH = () => (host.hasAttribute("data-short") ? 720 : probe.offsetHeight || innerHeight);
     const fine = matchMedia("(pointer: fine)");
 
     let g: Geo = geometry(innerWidth, innerHeight);
@@ -68,11 +80,12 @@ export function OneLine() {
     let legs: Leg[] = [];
     let brandEls: HTMLElement[] = [];
     let flightKey = "";
+    let fromHeader = false;
     let dpr = 1;
 
     /* ---------------------------------------------------------- layout, once per resize */
     function measure() {
-      g = geometry(innerWidth, innerHeight);
+      g = geometry(innerWidth, viewH(), host.hasAttribute("data-short"));
       const n2 = g.n * 2;
       [T, TA, W1, R, RO, WF, BUS, RAIL, TC, OUT] = Array.from({ length: 10 }, () => new Float32Array(n2));
       tangle(g, T);
@@ -171,33 +184,41 @@ export function OneLine() {
       const pWordBox = pWord.getBoundingClientRect();
       flowStage?.removeAttribute("data-measuring");
       const toMark: [number, number, number] = [a.left - stage.left, a.top - stage.top, a.width / mBox.width];
-      if (g.portrait || !hMark || !hWord) {
-        // Phones: a short drop inside the section (a diagonal from the header would cross the whole screen).
+      const headerShown = !!hMark && !!hWord && hMark.getBoundingClientRect().width > 0 && hWord.getBoundingClientRect().width > 0;
+      fromHeader = headerShown;
+      if (!headerShown) {
+        // Fallback (no visible header lockup): a short drop onto the shirt inside the section.
         const k = 1.35;
         legs.push({ el: fMark, w: mBox.width, h: mBox.height, bend: 0, to: toMark,
           from: [toMark[0] - (mBox.width * toMark[2] * (k - 1)) / 2, toMark[1] - 56, toMark[2] * k] });
         fWord.style.display = "none";
       } else {
+        // Desktop and phones alike: the header lockup itself lifts off and lands on the shirt as its print.
         fWord.style.display = "";
-        const hm = hMark.getBoundingClientRect();
+        const hm = hMark!.getBoundingClientRect();
         legs.push({ el: fMark, w: mBox.width, h: mBox.height, bend: -1, from: [hm.left, hm.top, hm.width / mBox.width], to: toMark });
         // The name lands by its text box: same face, weight and tracking at both ends, so a uniform scale maps one onto the other.
         const own = fWord.getBoundingClientRect(), ot = textBox(fWord);
         const dx = ot.left - own.left, dy = ot.top - own.top;
-        const src = textBox(hWord), dst = pWordBox;
+        const src = textBox(hWord!), dst = pWordBox;
         const s0 = src.width / ot.width, s1 = dst.width / ot.width;
         legs.push({ el: fWord, w: own.width, h: own.height, bend: 1,
           from: [src.left - dx * s0, src.top - dy * s0, s0],
           to: [dst.left - stage.left - dx * s1, dst.top - stage.top - dy * s1, s1] });
+        if (g.portrait) {
+          // Phones have no room beside the headline: travel down the left gutter (the line's lane), mark and name side by side.
+          legs[0].gx = 2;
+          legs[1].gx = 2 + mBox.width * toMark[2] * 0.85 + 2 - dx * s1 * 0.85;
+        }
       }
       flightKey = "";
     }
 
     function flyFrame(pp: number) {
       if (!legs.length) return;
-      // Desktop: lift 0-.2, travel .2-.6, recompose .6-.85, settle .85-1 of t, over pp .60-.92 of the pinned chapter.
-      const t = g.portrait ? clamp((pp - 0.78) / 0.14) : clamp((pp - 0.6) / 0.32);
-      const key = t.toFixed(4) + (g.portrait ? "p" : "l") + (t >= 1 ? pp.toFixed(4) : "");
+      // Lift 0-.2, travel .2-.6, recompose .6-.85, settle .85-1 of t, over pp .60-.92 of the pinned chapter (all screens).
+      const t = fromHeader ? clamp((pp - 0.6) / 0.32) : clamp((pp - 0.78) / 0.14);
+      const key = t.toFixed(4) + (fromHeader ? "h" : "d") + (t >= 1 ? pp.toFixed(4) : "");
       if (key === flightKey) return;
       flightKey = key;
       const on = t > 0 && t < 1;
@@ -208,7 +229,7 @@ export function OneLine() {
       const handoff = sstep(0.96, 1, t);
       print.style.opacity = String(t <= 0 ? 0 : handoff);
       flight.style.opacity = String(1 - handoff);
-      if (!g.portrait) {
+      if (fromHeader) {
         const back = t <= 0 ? 1 : t < 1 ? 0 : sstep(0.92, 0.98, pp);
         brandEls.forEach((el) => (el.style.opacity = back === 1 ? "" : String(back)));
       }
@@ -223,10 +244,20 @@ export function OneLine() {
         const k = FLY[L.bend < 0 ? 0 : 1];
         const ax = x0 + dx * k[0], ay = y0 + dy * k[1], bx = x0 + dx * k[2], by = y0 + dy * k[3];
         const v = 1 - u;
-        const x = v * v * v * x0 + 3 * v * v * u * ax + 3 * v * u * u * bx + u * u * u * x1;
-        const y = v * v * v * y0 + 3 * v * v * u * ay + 3 * v * u * u * by + u * u * u * y1 - 8 * lift * (1 - u)
-          + L.bend * 16 * Math.sin(Math.PI * u); // mark rides above, name below: never on top of each other
-        const sc = Math.exp(Math.log(s0) + (Math.log(s1) - Math.log(s0)) * u) * (1 + 0.06 * depth);
+        const cub = (a: number, b: number, c: number, d: number) => v * v * v * a + 3 * v * v * u * b + 3 * v * u * u * c + u * u * u * d;
+        let x: number, y: number, sc: number;
+        if (L.gx !== undefined) {
+          // Phones: an orthogonal route with blended corners. Shrink to print size and slide into the left gutter
+          // (the line's lane), descend it side by side (slightly reduced so both fit), then slide across into the shirt.
+          const a = sstep(0.12, 0.34, t), d = sstep(0.28, 0.8, t), c = sstep(0.74, 0.96, t);
+          x = x0 + (L.gx - x0) * a + (x1 - L.gx) * c;
+          y = y0 + dy * d - 8 * lift * (1 - d);
+          sc = Math.exp(Math.log(s0) + (Math.log(s1) - Math.log(s0)) * sstep(0, 0.3, t)) * (1 - 0.15 * a * (1 - c)) * (1 + 0.06 * depth);
+        } else {
+          x = cub(x0, ax, bx, x1);
+          y = cub(y0, ay, by, y1) - 8 * lift * (1 - u) + L.bend * 16 * Math.sin(Math.PI * u); // mark rides above, name below
+          sc = Math.exp(Math.log(s0) + (Math.log(s1) - Math.log(s0)) * u) * (1 + 0.06 * depth);
+        }
         const rz = (L.bend || -1) * 4 * Math.sin(Math.PI * u);
         const rx = 16 * depth * (1 - u * 0.4);
         L.el.style.transform =
@@ -399,7 +430,7 @@ export function OneLine() {
     const onFocus = (e: FocusEvent) => {
       const el = e.target as HTMLElement | null;
       const secEl = el?.closest<HTMLElement>("[data-sec]");
-      if (!el || !secEl || reduce.matches) return;
+      if (!el || !secEl || isStill()) return;
       let o = 1;
       for (let x: HTMLElement | null = el; x && x !== secEl; x = x.parentElement) o *= +getComputedStyle(x).opacity;
       if (o > 0.5) return;
@@ -425,7 +456,7 @@ export function OneLine() {
       host.querySelectorAll<HTMLCanvasElement>("[data-still]").forEach((c) => {
         const which = c.dataset.still!;
         const stage = c.parentElement!;
-        const sg = geometry(stage.clientWidth, stage.clientHeight);
+        const sg = geometry(stage.clientWidth, stage.clientHeight, host.hasAttribute("data-short"));
         const buf = new Float32Array(sg.n * 2);
         let extra: Branch[] = [];
         if (which === "hero") taut(sg, buf);
@@ -463,7 +494,8 @@ export function OneLine() {
     }
 
     function applyMode() {
-      const still = reduce.matches;
+      const still = isStill();
+      host.toggleAttribute("data-short", short.matches);
       host.dataset.mode = still ? "still" : "live";
       measure();
       if (still) {
@@ -486,7 +518,7 @@ export function OneLine() {
     const ro = new ResizeObserver(() => {
       measure();
       drawnKey = "";
-      if (reduce.matches) drawStills(); else frame(shownY, performance.now());
+      if (isStill()) drawStills(); else frame(shownY, performance.now());
     });
     ro.observe(document.documentElement);
     addEventListener("pointermove", onPointer, { passive: true });
@@ -494,17 +526,20 @@ export function OneLine() {
     host.addEventListener("input", onType);
     host.addEventListener("focusin", onFocus);
     reduce.addEventListener("change", applyMode);
+    short.addEventListener("change", applyMode);
     document.fonts?.ready.then(() => { drawnKey = ""; applyMode(); });
     applyMode();
 
     return () => {
       ro.disconnect();
+      probe.remove();
       removeEventListener("scroll", onScroll);
       removeEventListener("pointermove", onPointer);
       document.removeEventListener("pointerleave", onLeave);
       host.removeEventListener("input", onType);
       host.removeEventListener("focusin", onFocus);
       reduce.removeEventListener("change", applyMode);
+      short.removeEventListener("change", applyMode);
       if (raf !== null) cancelAnimationFrame(raf);
       resetFlight();
     };
