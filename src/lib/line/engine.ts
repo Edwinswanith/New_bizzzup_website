@@ -71,8 +71,12 @@ export function wave(g: Geo, out: Float32Array, amp: number, phase: number) {
 /* Anchor layouts shared by the line and the DOM, so documents and nodes sit exactly on it. */
 export function knowledgeAnchors(g: Geo): { docs: Pt[]; answer: Pt; path: Pt[] } {
   if (g.portrait) {
-    const docs: Pt[] = [[0.36, 0.4], [0.7, 0.5], [0.36, 0.6], [0.7, 0.7]].map(([x, y]) => [x * g.w, y * g.h]);
-    const answer: Pt = [0.5 * g.w, 0.81 * g.h];
+    const compact = g.h < 700;
+    const docs: Pt[] = (compact
+      ? [[0.36, 0.43], [0.7, 0.53], [0.36, 0.63], [0.7, 0.73]]
+      : [[0.36, 0.4], [0.7, 0.5], [0.36, 0.6], [0.7, 0.7]]
+    ).map(([x, y]) => [x * g.w, y * g.h]);
+    const answer: Pt = [(compact ? 0.3 : 0.5) * g.w, (compact ? 0.8 : 0.82) * g.h];
     return { docs, answer, path: [[0.1 * g.w, -0.05 * g.h], [0.1 * g.w, 0.3 * g.h], ...docs, answer, [0.5 * g.w, 1.05 * g.h]] };
   }
   const docs: Pt[] = [[0.38, 0.36], [0.5, 0.64], [0.62, 0.34], [0.74, 0.62]].map(([x, y]) => [x * g.w, y * g.h]);

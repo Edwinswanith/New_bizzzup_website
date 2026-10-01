@@ -353,7 +353,11 @@ export function OneLine() {
         }
       }
 
-      lightAll(docEls, (i) => pulse >= docIdx[i] && y < ops.top ? true : y >= ops.top);
+      lightAll(docEls, (i) => {
+        if (y >= ops.top) return true;
+        if (g.portrait) return y >= knowledge.top && pk >= 0.46 + i * 0.08;
+        return pulse >= docIdx[i];
+      });
       lightAll(cardEls, (i) => (y >= map.top && pm >= 0.48 && (pm >= 0.8 || pulse >= idx(mapBranches[i]?.from ?? 1))));
       draw(pulse, grow, branches);
     }
@@ -588,7 +592,6 @@ export function OneLine() {
             <a className={s.cta} href="#friction">Start a project</a>
             <a className={s.link} href="#work">See our work</a>
           </p>
-          <p className={s.next} aria-hidden="true">01 · Voice AI</p>
         </div>
       </section>
 

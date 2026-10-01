@@ -212,7 +212,7 @@
 
 /* Phones and portrait tablets: shorter pins, the line runs down the left, text on the right. */
 @media (max-width: 899.98px), (orientation: landscape) and (max-height: 500px) {
-  .root { --hero-len: calc(170 * var(--vh)); --voice-len: calc(180 * var(--vh)); --knowledge-len: calc(180 * var(--vh)); --ops-len: calc(200 * var(--vh)); --products-len: calc(180 * var(--vh)); --map-len: calc(220 * var(--vh)); --rail: 10vw; --pad: 22vw; font-size: 17px; }
+  .root { --hero-len: calc(155 * var(--vh)); --voice-len: calc(155 * var(--vh)); --knowledge-len: calc(155 * var(--vh)); --ops-len: calc(165 * var(--vh)); --products-len: calc(165 * var(--vh)); --map-len: calc(175 * var(--vh)); --rail: 10vw; --pad: 22vw; font-size: 17px; }
   .stage { padding-left: 22vw; padding-right: 16px; padding-top: 84px; }
   .front { gap: 16px; }
   .h1 { font-size: clamp(40px, 11vw, 60px); max-width: none; }
@@ -227,22 +227,25 @@
   .fields, .action, .gate { position: static; }
   .fields { flex-wrap: wrap; }
   .action, .gate { justify-self: start; }
-  .doc { width: 32vw; padding: 8px; }
+  .doc { width: clamp(116px, 32vw, 128px); padding: 8px; }
   .docLines { height: 22px; }
-  .answer { width: 44vw; }
+  .answer { width: 44vw; padding: 10px 12px; }
+  .answerTitle { font-size: 16px; line-height: 1.15; margin-bottom: 5px; }
+  .answerGate { line-height: 1.25; }
   .caption { left: 22vw; bottom: 16px; max-width: calc(78vw - 16px); font-size: 10px; background: var(--vellum); padding: 4px 0; }
   .branch { transform: translate(calc(-100% - 10px), calc(-100% - 3px)); font-size: 10px; }
   .ops .body { display: none; }
   .metrics { gap: 8px 14px; flex-wrap: nowrap; }
   .metrics dd { font-size: 24px; }
   .metrics dt { font-size: 9px; }
-  .frame { left: 22vw; right: 16px; top: calc(46 * var(--vh)); height: calc(40 * var(--vh)); }
-  .frameSteps { padding: 12px 12px 0; gap: 6px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
-  .frameSteps li { font-size: 10px; }
-  .frameSteps button { padding: 6px 8px; gap: 6px; }
-  .frameBody { padding: 12px; gap: 10px; }
+  .frame { left: 18vw; right: 12px; top: calc(38 * var(--vh)); height: calc(40 * var(--vh)); grid-template-rows: 38px auto minmax(0, 1fr); }
+  .frameSteps { padding: 10px 10px 0; gap: 6px; flex-wrap: wrap; overflow: visible; scrollbar-width: none; }
+  .frameSteps li { flex: 1 1 calc(50% - 3px); min-width: 0; font-size: 9.5px; }
+  .frameSteps button { width: 100%; min-height: 32px; justify-content: center; padding: 5px 6px; gap: 5px; }
+  .frameBody { min-height: 0; overflow: hidden; padding: 10px; gap: 9px; }
   .framePrompt { font-size: 15px; }
-  .cards { left: 22vw; right: 16px; top: calc(36 * var(--vh)); grid-template-columns: 1fr; gap: 10px; }
+  .teeName { display: none; } /* ~4px on phones: the mark alone reads, the name would not */
+  .cards { left: 22vw; right: 16px; top: calc(34 * var(--vh)); grid-template-columns: 1fr; gap: 10px; }
   .card { padding: 10px 12px; gap: 4px; min-height: 0; }
   .cardCount { display: none; }
   .cardGrammar { display: none; }
@@ -259,7 +262,7 @@
 
 /* Short phones (QA): the order flow needs more than 40vh. Use the empty band under the heading instead of shrinking it. */
 @media (max-width: 899.98px) and (max-height: 820px), (orientation: landscape) and (max-height: 500px) {
-  .frame { top: calc(36 * var(--vh)); height: calc(50 * var(--vh)); }
+  .frame { top: calc(34 * var(--vh)); height: calc(46 * var(--vh)); }
 }
 /* Short phones (QA): the voice transcript ran under the caption (375x667) or off the screen (320x568). */
 @media (max-width: 899.98px) and (max-height: 700px), (orientation: landscape) and (max-height: 500px) {
@@ -272,10 +275,14 @@
   .voice .body { display: none; } /* as the other chapters already do on phones */
   .transcript { gap: 4px; }
   .fields dd { padding: 3px 8px; }
+  .knowledge .answer { width: 40vw; padding: 8px 10px; opacity: clamp(0, (var(--p, 0) - 0.86) * 12, 1); }
+  .knowledge .answerTitle { font-size: 14.5px; margin-bottom: 4px; }
+  .knowledge .answerGate { font-size: 8.5px; }
+  .knowledge .caption { font-size: 8.5px; line-height: 1.32; max-width: calc(78vw - 8px); }
 }
 
 @media (max-width: 899.98px) and (max-height: 620px), (orientation: landscape) and (max-height: 500px) {
-  .frame { top: calc(37.5 * var(--vh)); height: calc(48.5 * var(--vh)); } /* 320x568: clear the three-line heading */
+  .frame { top: calc(34 * var(--vh)); height: calc(46 * var(--vh)); } /* 320x568: clear the three-line heading */
 }
 /* Short landscape phones (QA): the pinned scenes cannot fit 320-430px of height, so the resolved still layout is used,
    on a 720px stage. */

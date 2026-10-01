@@ -136,6 +136,10 @@
   .item { font-size: 16px; }
   .cta { min-height: 32px; padding: 0 12px; font-size: 10px; }
   .sizeTag { top: 4px; right: 4px; font-size: 9px; }
+  .pay { gap: 7px; }
+  .totals { padding-right: 0; }
+  .totals > div { padding: 6px 0; }
+  .confirm { gap: 6px; }
 }
 
 /* 320px phones (QA): the controls drop their visual labels (each group keeps its aria-label; the swatches, sizes and
