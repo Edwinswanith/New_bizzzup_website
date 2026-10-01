@@ -427,6 +427,15 @@ export function OneLine() {
     // Keyboard focus can land on a control whose chapter hasn't revealed it yet (opacity from --p). Jump that chapter
     // to the point where the control is fully shown, so focus is never on something invisible.
     const SHOWN: Record<string, number> = { products: 1, map: 0.6 };
+    // A control the scene hasn't faded in yet (DesignT tabs, map links) still sits under the pointer: swallow presses
+    // on it, so an unseen link never opens and a stray tap never focuses it and jumps the chapter forward.
+    const onGhost = (e: MouseEvent) => {
+      const el = (e.target as Element | null)?.closest?.<HTMLElement>("a, button, input, select, textarea");
+      if (!el || host.dataset.mode === "still") return;
+      let o = 1;
+      for (let x: HTMLElement | null = el; x && x !== host; x = x.parentElement) o *= +getComputedStyle(x).opacity;
+      if (o < 0.3) { e.preventDefault(); e.stopPropagation(); }
+    };
     const onFocus = (e: FocusEvent) => {
       const el = e.target as HTMLElement | null;
       const secEl = el?.closest<HTMLElement>("[data-sec]");
@@ -525,6 +534,8 @@ export function OneLine() {
     document.addEventListener("pointerleave", onLeave);
     host.addEventListener("input", onType);
     host.addEventListener("focusin", onFocus);
+    host.addEventListener("mousedown", onGhost, true);
+    host.addEventListener("click", onGhost, true);
     reduce.addEventListener("change", applyMode);
     short.addEventListener("change", applyMode);
     document.fonts?.ready.then(() => { drawnKey = ""; applyMode(); });
@@ -538,6 +549,8 @@ export function OneLine() {
       document.removeEventListener("pointerleave", onLeave);
       host.removeEventListener("input", onType);
       host.removeEventListener("focusin", onFocus);
+      host.removeEventListener("mousedown", onGhost, true);
+      host.removeEventListener("click", onGhost, true);
       reduce.removeEventListener("change", applyMode);
       short.removeEventListener("change", applyMode);
       if (raf !== null) cancelAnimationFrame(raf);
