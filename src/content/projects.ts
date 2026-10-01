@@ -3,6 +3,56 @@ import type { Project } from "./types";
 /** All 15 projects, in the order they appear on /work (01–15). */
 export const PROJECTS: Project[] = [
   {
+    slug: "prof-hemant-sheth",
+    name: "Prof. Hemant Sheth",
+    tagline: "Robotic & Laparoscopic Surgeon Website",
+    category: "Healthcare",
+    status: "Launched",
+    depth: "full",
+    region: "products",
+    client: "Prof. Hemant Sheth, Consultant Upper GI, Laparoscopic & Robotic Surgeon (London & Hertfordshire, UK)",
+    summary:
+      "A fast, search-optimised practice website for a UK consultant surgeon: treatment information, clinic finder and consultation booking.",
+    description:
+      "A custom React and TypeScript website for a Consultant Upper GI, HPB, Laparoscopic and Robotic Surgeon in private practice in London and Hertfordshire. It helps patients understand their treatment options, find the right clinic and book a consultation, and it makes no unverified medical or professional claims.",
+    metrics: [
+      { value: "15+", label: "Treatment Pages" },
+      { value: "4", label: "Specialities" },
+    ],
+    sections: [
+      {
+        title: "Trust-Led Design",
+        body: "A calm navy-and-teal clinical palette with serif headings. A full-bleed hero of the surgeon at the Da Vinci robotic console, a Book Consultation button and click-to-call number on every page, and credibility signals placed throughout the journey.",
+      },
+      {
+        title: "Consultation Booking Flow",
+        body: "A step-by-step booking form opens from any page, pre-filled with the procedure or clinic being viewed. Patients choose private insurance or self-funding, pick a hospital and procedure, and can add their insurer and pre-authorisation code. Requests go straight to the practice through EmailJS, with no backend server.",
+      },
+      {
+        title: "Treatment Library and Robotic Hub",
+        body: "More than 15 treatment pages across Upper GI, Hernia, HPB and Appendicectomy, each with what the treatment involves, approaches and recovery, and a clear general-guidance note. A robotic surgery hub explains robotic-assisted surgery in plain language, with an open vs laparoscopic vs robotic comparison drawn from NHS sources.",
+      },
+      {
+        title: "Clinic Locations",
+        body: "A page for each clinic with address, consultation times, directions and a Book here button that pre-selects that clinic. An interactive Google Map loads only when needed and falls back to a static map, so the page never appears broken.",
+      },
+      {
+        title: "Content Verification",
+        body: "Every fact (qualifications, registration number, hospitals, testimonials, publications) carries a verification status. Only verified items can appear on the live site; anything unverified is held back automatically.",
+      },
+      {
+        title: "SEO, AEO and GEO",
+        body: "Server-side rendering and prerendering, a unique title, description, canonical and H1 per page, an automatic sitemap, Physician, MedicalWebPage and FAQPage structured data, short answer summaries and an llms.txt file. Every build runs type checks, tests and an SEO audit, and a failure stops the build.",
+      },
+    ],
+    operationalValue:
+      "Booking in a few clicks from any page, with insurer details captured up front. Every page server-rendered and SEO-checked before each release, structured for Google rich results and AI answer engines, and a process that keeps unverified claims off the site.",
+    stack: ["React 18", "TypeScript", "Vite (client + SSR)", "Tailwind CSS", "Vitest", "EmailJS", "Google Maps JS API", "Schema.org JSON-LD", "Vercel"],
+    tags: ["Healthcare Website", "Consultation Booking", "Technical SEO", "AEO / GEO", "Content Verification"],
+    relatedServices: ["custom-business-software"],
+    source: "https://londonroboticsurgeon.co.uk/ (project case study)",
+  },
+  {
     slug: "caption-cc",
     name: "Caption CC",
     tagline: "Code-Switching Subtitle Generator",
@@ -263,25 +313,41 @@ export const PROJECTS: Project[] = [
     tagline: "Visual ML Workflow Builder",
     category: "ML Tooling",
     status: "Delivered MVP",
-    depth: "snapshot",
+    depth: "full",
     region: "products",
     summary:
       "Visual machine-learning workflow builder focused on training, inference, and quantization experiment design.",
     description:
-      "Visual machine-learning workflow builder focused on training, inference, and quantization experiment design.",
-    metrics: [],
+      "OptimaFlow is a visual ML workflow system for building, running and evaluating machine learning pipelines, with a focus on Tilde Numerical System quantization. Users design workflows on a node-based canvas; the system executes them and compares quantization variants (Rect, Spoke, Fovea) across training and inference.",
+    metrics: [
+      { value: "50+", label: "Built-in Node Types" },
+      { value: "164+", label: "Custom Alpha Nodes" },
+      { value: "3", label: "Tilde Variants" },
+    ],
     sections: [
       {
-        title: "How It Works",
-        body: "Users design workflows on a ReactFlow canvas using data, model, training, validation, utility, and quantization nodes. Backend validates DAGs, expands groups, executes nodes topologically, and tracks status. Supports Tilde quantization variants such as Rect, Spoke, and Fovea.",
+        title: "Visual Workflow Design",
+        body: "Drag-and-drop nodes and edges instead of writing pipeline code by hand: a multi-sheet workbook canvas with zoom and pan, undo and redo, and auto-layout. Data, model, quantization, training, utility, interface and template nodes, plus custom Alpha nodes loaded from JSON definitions.",
+      },
+      {
+        title: "Quantization Evaluation",
+        body: "Baseline and Tilde (Rect, Spoke, Fovea) quantization nodes are wired into real training and inference workflows, so the variants can be compared side by side in one environment, from data loading and model selection to validation and reporting.",
+      },
+      {
+        title: "Execution Engine",
+        body: "A FastAPI and PyTorch backend validates the DAG, expands group nodes, executes nodes in topological order through a registry of executor functions, supports CPU or CUDA, and reports status back to the canvas.",
+      },
+      {
+        title: "Groups, Templates and Workflows",
+        body: "Collapsible sub-workflows with their own canvas and interface nodes; template nodes with Python or Julia code blocks, docs and configurable inputs and outputs; workflows saved and loaded as multi-sheet workbooks or flat graphs, with export and import that resolves custom nodes.",
       },
     ],
     operationalValue:
       "Makes ML workflow construction accessible. Improves reproducibility. Accelerates comparison of quantization approaches.",
-    stack: [],
+    stack: ["React 18", "Vite", "ReactFlow 11", "Python", "FastAPI", "PyTorch", "Julia (optional)"],
     tags: ["ML Workflow Canvas", "Pipeline Templates", "Visual Workflows", "Quantization"],
     relatedServices: ["ai-mvp-development"],
-    source: "/work/optimaflow",
+    source: "/work/optimaflow; OptimaFlow project description (v0.5.0)",
   },
   {
     slug: "meridian",

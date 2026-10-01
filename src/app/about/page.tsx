@@ -47,7 +47,7 @@ export default function AboutPage() {
               <li key={r.id}><span className="mono">{r.name}</span> {r.grammar.join(" → ")}</li>
             ))}
           </ul>
-          <p style={{ marginTop: 20 }}><Link href="/work" className="link-arrow">See all fifteen builds</Link></p>
+          <p style={{ marginTop: 20 }}><Link href="/work" className="link-arrow">See all sixteen builds</Link></p>
         </section>
       </div>
       <NextStep />

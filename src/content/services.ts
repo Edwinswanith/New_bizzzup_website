@@ -359,7 +359,7 @@ export const SERVICES: Service[] = [
       "Dockerized Services and Cloud Deployment: containerized, multi-stage builds on managed infrastructure",
       "Monitoring & Logging: request tracing and audit trails from launch",
     ],
-    evidence: ["saloon", "meridian", "flightdeck"],
+    evidence: ["saloon", "meridian", "flightdeck", "prof-hemant-sheth"],
     source: "/services/custom-business-software",
   },
 ];
