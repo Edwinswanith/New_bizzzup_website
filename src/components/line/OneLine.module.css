@@ -242,7 +242,6 @@
   .frameSteps button { padding: 6px 8px; gap: 6px; }
   .frameBody { padding: 12px; gap: 10px; }
   .framePrompt { font-size: 15px; }
-  .teeName { display: none; } /* ~4px on phones: the mark alone reads, the name would not */
   .cards { left: 22vw; right: 16px; top: calc(36 * var(--vh)); grid-template-columns: 1fr; gap: 10px; }
   .card { padding: 10px 12px; gap: 4px; min-height: 0; }
   .cardCount { display: none; }

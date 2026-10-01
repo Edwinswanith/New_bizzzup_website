@@ -147,3 +147,7 @@
   .stage { overflow-x: hidden; overflow-y: auto; scrollbar-width: none; }
 }
 
+/* Phones (portrait): the shirt fills its narrow, tall box so the printed name stays legible. */
+@media (max-width: 599.98px) {
+  .stage .tee svg { width: 94%; height: 94%; }
+}
