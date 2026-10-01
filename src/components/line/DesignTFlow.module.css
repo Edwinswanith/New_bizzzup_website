@@ -115,7 +115,7 @@
 }
 
 /* Phones: the frame is ~40vh. The prompt steps aside after Design; controls stack their label above the options. */
-@media (max-width: 899.98px) {
+@media (max-width: 899.98px), (orientation: landscape) and (max-height: 500px) {
   .stage { --gap: 10px; }
   [data-step]:not([data-step="0"]) > .prompt { display: none; }
   /* Customise: the shirt steps back to a thumbnail so the controls get the width. */
@@ -147,3 +147,7 @@
   .stage { overflow-x: hidden; overflow-y: auto; scrollbar-width: none; }
 }
 
+/* Phones (portrait): the shirt fills its narrow, tall box so the printed name stays legible. */
+@media (max-width: 599.98px) {
+  .stage .tee svg { width: 94%; height: 94%; }
+}
