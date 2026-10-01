@@ -52,7 +52,7 @@ export function Header() {
             ))}
           </ul>
           <Link href="/#friction" className={`btn glow ${styles.cta}`}>
-            Describe your friction
+            Start a project
           </Link>
         </nav>
       </div>
