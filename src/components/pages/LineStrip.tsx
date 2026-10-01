@@ -59,11 +59,11 @@ function Svg({ shape, w, h, className }: { shape: StripShape; w: number; h: numb
 }
 
 /** A still of the Line, drawn in once on load. Inner pages use it where the homepage runs it live. */
-export function LineStrip({ shape, children }: { shape: StripShape; children?: React.ReactNode }) {
+export function LineStrip({ shape, tall, children }: { shape: StripShape | null; tall?: boolean; children?: React.ReactNode }) {
   return (
-    <div className={styles.strip}>
-      <Svg shape={shape} w={1600} h={300} className={styles.wide} />
-      <Svg shape={shape} w={760} h={300} className={styles.narrow} />
+    <div className={`${styles.strip} ${tall ? styles.tall : ""}`}>
+      {shape && <Svg shape={shape} w={1600} h={300} className={styles.wide} />}
+      {shape && <Svg shape={shape} w={760} h={300} className={styles.narrow} />}
       {children && <div className={`wrap ${styles.inner}`}>{children}</div>}
     </div>
   );

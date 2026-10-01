@@ -6,6 +6,7 @@ import { PROJECT_FLOW, SCREENSHOTS } from "@/content/transformations";
 import { pageMeta } from "@/lib/site";
 import { PageShell } from "@/components/pages/PageShell";
 import { RegionBanner } from "@/components/pages/RegionBanner";
+import { ProjectSignature, hasSignature } from "@/components/pages/signatures";
 import { Transformation } from "@/components/pages/Transformation";
 import { NextStep } from "@/components/pages/NextStep";
 import { statusState } from "@/components/site/Evidence";
@@ -32,7 +33,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   return (
     <PageShell>
-      <RegionBanner region={p.region} trail={[{ href: "/work", label: "Work" }, { href: `/work/${p.slug}`, label: p.name }]} />
+      <RegionBanner region={p.region} trail={[{ href: "/work", label: "Work" }, { href: `/work/${p.slug}`, label: p.name }]}
+        figure={hasSignature(p.slug) ? <ProjectSignature slug={p.slug} /> : undefined} />
       <div className="wrap">
         <header className={styles.head}>
           <p className={`mono ${styles.kicker}`}>

@@ -7,16 +7,18 @@ import styles from "./RegionBanner.module.css";
 const QUAD: Record<RegionId, [number, number]> = { voice: [0, 0], knowledge: [1, 0], operations: [0, 1], products: [1, 1] };
 
 /** Entering one region of the system: the Line in the shape it takes for that region on the homepage. */
-export function RegionBanner({ region, trail }: { region: RegionId; trail: { href: string; label: string }[] }) {
+/** `figure` (a project motion signature) takes the strip's middle in place of the region's Line. */
+export function RegionBanner({ region, trail, figure }: { region: RegionId; trail: { href: string; label: string }[]; figure?: React.ReactNode }) {
   const r = regionById(region)!;
   return (
-    <LineStrip shape={region}>
+    <LineStrip shape={figure ? null : region} tall={!!figure}>
       <nav aria-label="Breadcrumb" className={styles.trail}>
         <ol>
           <li><Link href="/#system">System</Link></li>
           {trail.map((t) => <li key={t.href}><Link href={t.href}>{t.label}</Link></li>)}
         </ol>
       </nav>
+      {figure}
       <div className={styles.tag}>
         <svg viewBox="0 0 44 26" className={styles.mini} aria-hidden="true">
           {REGIONS.map((rg) => {
