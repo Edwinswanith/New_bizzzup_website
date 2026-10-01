@@ -26,6 +26,20 @@ export function DesignTFlow() {
   const [cfg, setCfg] = useState(DEFAULT);
   const body = useRef<HTMLDivElement>(null);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const list = useRef<HTMLOListElement>(null);
+
+  // Phones: the four tabs are wider than the frame and the row scrolls. Keep the current step and the one after it
+  // in view, so the next step is always visible (Payment otherwise sits off the right edge).
+  useEffect(() => {
+    const l = list.current!;
+    if (l.scrollWidth <= l.clientWidth) return;
+    const lr = l.getBoundingClientRect();
+    const cur = l.children[step].getBoundingClientRect();
+    const next = l.children[Math.min(step + 1, STEPS.length - 1)].getBoundingClientRect();
+    let dx = Math.max(0, next.right - lr.right + 8);
+    if (cur.left - dx < lr.left) dx = cur.left - lr.left - 8;
+    if (Math.abs(dx) > 1) l.scrollBy({ left: dx, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  }, [step]);
 
   // The logo flight lands on the Design state: when the visitor scrolls back into it, the demo restarts.
   useEffect(() => {
@@ -59,7 +73,7 @@ export function DesignTFlow() {
 
   return (
     <>
-      <ol className={s.frameSteps} role="tablist" aria-label="DesignT order flow">
+      <ol ref={list} className={s.frameSteps} role="tablist" aria-label="DesignT order flow">
         {STEPS.map((t, i) => (
           <li key={t} role="presentation" style={{ ["--i" as string]: i }} data-active={step === i || undefined} data-done={i < step || undefined}>
             <button
