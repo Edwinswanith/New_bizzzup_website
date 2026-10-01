@@ -50,6 +50,18 @@ export function OneLine() {
     const canvas = host.querySelector<HTMLCanvasElement>("[data-line]")!;
     const ctx = canvas.getContext("2d")!;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+    // Phones held sideways (and other very short screens): the pinned scenes cannot fit, so the resolved still layout
+    // is used, laid out on a 720px stage (CSS --vh, set by [data-short]).
+    const short = matchMedia("(orientation: landscape) and (max-height: 500px)");
+    const isStill = () => reduce.matches || short.matches;
+    // One stable height for CSS and JS. On phones 100vh is the height with the browser toolbar hidden while innerHeight
+    // is measured with it showing; scenes then sat under the toolbar and chapters unpinned before finishing. Both now use
+    // the small viewport (svh, via CSS --vh), read back from a probe so the numbers match exactly.
+    const probe = document.createElement("div");
+    probe.style.cssText = "position:fixed;left:0;top:0;width:0;height:calc(100 * var(--vh));visibility:hidden;pointer-events:none";
+    probe.setAttribute("aria-hidden", "true");
+    host.appendChild(probe);
+    const viewH = () => (host.hasAttribute("data-short") ? 720 : probe.offsetHeight || innerHeight);
     const fine = matchMedia("(pointer: fine)");
 
     let g: Geo = geometry(innerWidth, innerHeight);
@@ -72,7 +84,7 @@ export function OneLine() {
 
     /* ---------------------------------------------------------- layout, once per resize */
     function measure() {
-      g = geometry(innerWidth, innerHeight);
+      g = geometry(innerWidth, viewH(), host.hasAttribute("data-short"));
       const n2 = g.n * 2;
       [T, TA, W1, R, RO, WF, BUS, RAIL, TC, OUT] = Array.from({ length: 10 }, () => new Float32Array(n2));
       tangle(g, T);
@@ -399,7 +411,7 @@ export function OneLine() {
     const onFocus = (e: FocusEvent) => {
       const el = e.target as HTMLElement | null;
       const secEl = el?.closest<HTMLElement>("[data-sec]");
-      if (!el || !secEl || reduce.matches) return;
+      if (!el || !secEl || isStill()) return;
       let o = 1;
       for (let x: HTMLElement | null = el; x && x !== secEl; x = x.parentElement) o *= +getComputedStyle(x).opacity;
       if (o > 0.5) return;
@@ -425,7 +437,7 @@ export function OneLine() {
       host.querySelectorAll<HTMLCanvasElement>("[data-still]").forEach((c) => {
         const which = c.dataset.still!;
         const stage = c.parentElement!;
-        const sg = geometry(stage.clientWidth, stage.clientHeight);
+        const sg = geometry(stage.clientWidth, stage.clientHeight, host.hasAttribute("data-short"));
         const buf = new Float32Array(sg.n * 2);
         let extra: Branch[] = [];
         if (which === "hero") taut(sg, buf);
@@ -463,7 +475,8 @@ export function OneLine() {
     }
 
     function applyMode() {
-      const still = reduce.matches;
+      const still = isStill();
+      host.toggleAttribute("data-short", short.matches);
       host.dataset.mode = still ? "still" : "live";
       measure();
       if (still) {
@@ -486,7 +499,7 @@ export function OneLine() {
     const ro = new ResizeObserver(() => {
       measure();
       drawnKey = "";
-      if (reduce.matches) drawStills(); else frame(shownY, performance.now());
+      if (isStill()) drawStills(); else frame(shownY, performance.now());
     });
     ro.observe(document.documentElement);
     addEventListener("pointermove", onPointer, { passive: true });
@@ -494,17 +507,20 @@ export function OneLine() {
     host.addEventListener("input", onType);
     host.addEventListener("focusin", onFocus);
     reduce.addEventListener("change", applyMode);
+    short.addEventListener("change", applyMode);
     document.fonts?.ready.then(() => { drawnKey = ""; applyMode(); });
     applyMode();
 
     return () => {
       ro.disconnect();
+      probe.remove();
       removeEventListener("scroll", onScroll);
       removeEventListener("pointermove", onPointer);
       document.removeEventListener("pointerleave", onLeave);
       host.removeEventListener("input", onType);
       host.removeEventListener("focusin", onFocus);
       reduce.removeEventListener("change", applyMode);
+      short.removeEventListener("change", applyMode);
       if (raf !== null) cancelAnimationFrame(raf);
       resetFlight();
     };

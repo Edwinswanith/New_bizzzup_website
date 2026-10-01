@@ -13,8 +13,9 @@ export const sstep = (a: number, b: number, x: number) => {
 };
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-export function geometry(w: number, h: number): Geo {
-  const portrait = w < 900;
+/** `phone` forces the portrait (phone) geometry, used for phones held sideways (see OneLine's short-landscape mode). */
+export function geometry(w: number, h: number, phone = false): Geo {
+  const portrait = phone || w < 900;
   return { w, h, portrait, n: portrait ? 360 : 640 };
 }
 
