@@ -65,10 +65,10 @@ export const PROJECTS: Project[] = [
     description:
       "Caption CC generates accurate English subtitles from Tamil-English code-switched video, with optional AI dubbing. A 5-stage caption pipeline and 7-stage dubbing pipeline handle everything from download to export, supporting YouTube URLs and direct file uploads up to 500 MB.",
     metrics: [
-      { value: "5", label: "Caption Stages" },
-      { value: "7", label: "Dubbing Stages" },
-      { value: "10 min", label: "Max Duration" },
-      { value: "SRT, VTT, MP4", label: "Export Formats" },
+      { value: "Hours", label: "Editing time saved" },
+      { value: "2", label: "Languages bridged" },
+      { value: "10 min", label: "Videos handled" },
+      { value: "3", label: "Publishing assets" },
     ],
     sections: [
       {
@@ -77,7 +77,7 @@ export const PROJECTS: Project[] = [
       },
       {
         title: "AI Dubbing Pipeline",
-        body: "Seven-stage dubbing flow adds TTS and audio assembly on top of captioning: after translation, ElevenLabs synthesizes each segment, FFmpeg assembles the full audio track, and the dubbed audio is merged back into the video. The final dubbed MP4 is available for one-click download. Timing is best-effort matched to original segment boundaries.",
+        body: "Seven-stage dubbing flow adds TTS and audio assembly on top of captioning: after translation, ElevenLabs synthesises each segment, FFmpeg assembles the full audio track, and the dubbed audio is merged back into the video. The final dubbed MP4 is available for one-click download. Timing is best-effort matched to original segment boundaries.",
       },
       {
         title: "Architecture & Limits",
@@ -116,10 +116,10 @@ export const PROJECTS: Project[] = [
     description:
       "DesignT is a conversational AI t-shirt design studio powered by Google Gemini Pro Vision. Users describe their idea in natural language, optionally upload reference images, and get instant t-shirt mockups rendered in real time. Designs flow into a complete 4-step e-commerce checkout with Razorpay payment.",
     metrics: [
-      { value: "Gemini", label: "AI Engine" },
-      { value: "5", label: "T-Shirt Colors" },
-      { value: "XS–3XL", label: "Size Range" },
-      { value: "4", label: "Checkout Steps" },
+      { value: "Minutes", label: "Idea-to-mockup time" },
+      { value: "4 steps", label: "Checkout path" },
+      { value: "Order-ready", label: "Artwork output" },
+      { value: "Less", label: "Designer handoff" },
     ],
     sections: [
       {
@@ -127,16 +127,16 @@ export const PROJECTS: Project[] = [
         body: "Users describe their design in plain English and Gemini Pro Vision generates it instantly. Up to 3 reference images can be uploaded per conversation for style transfer and visual grounding. Full design history persists across sessions via Zustand + localStorage, and designs can be refined iteratively through natural dialogue, no design tools required.",
       },
       {
-        title: "Product Customization & Preview",
-        body: "Five curated t-shirt colors with live preview that updates instantly across all variants. Complete size range from XS to 3XL with detailed fit guides. Precision positioning controls let users adjust design placement and scale on the mockup before committing. Changes render live without page reloads.",
+        title: "Product Customisation & Preview",
+        body: "Five curated t-shirt colours with live preview that updates instantly across all variants. Complete size range from XS to 3XL with detailed fit guides. Precision positioning controls let users adjust design placement and scale on the mockup before committing. Changes render live without page reloads.",
       },
       {
         title: "E-Commerce Checkout",
-        body: "Streamlined 4-step flow: Design → Customize → Details → Payment. Razorpay handles secure payment processing with multiple payment methods. Prepaid orders receive an automatic discount; COD is available for convenience. Orders are tracked in Supabase with status updates. Cloudinary stores and optimizes all design assets.",
+        body: "Streamlined 4-step flow: Design → Customise → Details → Payment. Razorpay handles secure payment processing with multiple payment methods. Prepaid orders receive an automatic discount; COD is available for convenience. Orders are tracked in Supabase with status updates. Cloudinary stores and optimises all design assets.",
       },
     ],
     operationalValue:
-      "Shortens design-to-product cycle. Enables personalized e-commerce without manual designer dependency. Improves conversion through realistic previews.",
+      "Shortens design-to-product cycle. Enables personalised e-commerce without manual designer dependency. Improves conversion through realistic previews.",
     stack: [
       "Next.js 15",
       "App Router",
@@ -167,10 +167,10 @@ export const PROJECTS: Project[] = [
     description:
       "MediConsult is a comprehensive healthcare platform that bridges patients and providers through AI-powered voice consultations, intelligent appointment scheduling, automated prescription management, and real-time messaging. It serves as an end-to-end digital healthcare ecosystem combining traditional practice management with AI.",
     metrics: [
-      { value: "10", label: "Feature Modules" },
-      { value: "VAPI", label: "AI Voice" },
-      { value: "2", label: "Auth Roles" },
-      { value: "Docker", label: "Deployment" },
+      { value: "2 groups", label: "Users served" },
+      { value: "Bookings", label: "Scheduling workload" },
+      { value: "Reduced", label: "Clinic admin" },
+      { value: "Faster", label: "Prescription follow-up" },
     ],
     sections: [
       {
@@ -183,7 +183,7 @@ export const PROJECTS: Project[] = [
       },
       {
         title: "Multi-Agent & Document Workflows",
-        body: "CrewAI orchestrates multi-agent workflows for complex medical tasks: data extraction from conversations, patient record organization, and intelligent task routing. GridFS handles secure document storage with version control. Real-time messaging via Socket.IO connects doctors and patients directly in-app.",
+        body: "CrewAI orchestrates multi-agent workflows for complex medical tasks: data extraction from conversations, patient record organisation, and intelligent task routing. GridFS handles secure document storage with version control. Real-time messaging via Socket.IO connects doctors and patients directly in-app.",
       },
     ],
     operationalValue:
@@ -245,7 +245,7 @@ export const PROJECTS: Project[] = [
     sections: [
       {
         title: "How It Works",
-        body: "Captures audio and external inputs, transcribes and segments source content, extracts tasks, decisions, risks, people, organizations, projects, relationships, and follow-ups. Stores founder-scoped memory for review, search, reminders, and chat.",
+        body: "Captures audio and external inputs, transcribes and segments source content, extracts tasks, decisions, risks, people, organisations, projects, relationships, and follow-ups. Stores founder-scoped memory for review, search, reminders, and chat.",
       },
     ],
     operationalValue:
@@ -275,7 +275,7 @@ export const PROJECTS: Project[] = [
       },
     ],
     operationalValue:
-      "Centralizes aviation learning. Gives students measurable practice and feedback. Creates a mentor marketplace model without exposing private mentor identity.",
+      "Centralises aviation learning. Gives students measurable practice and feedback. Creates a mentor marketplace model without exposing private mentor identity.",
     stack: [],
     tags: ["Student Dashboard", "Study Materials", "Assessments", "Mentorship"],
     relatedServices: ["custom-business-software"],
@@ -316,22 +316,22 @@ export const PROJECTS: Project[] = [
     depth: "full",
     region: "products",
     summary:
-      "Visual machine-learning workflow builder focused on training, inference, and quantization experiment design.",
+      "Visual machine-learning workflow builder focused on training, inference, and quantisation experiment design.",
     description:
-      "OptimaFlow is a visual ML workflow system for building, running and evaluating machine learning pipelines, with a focus on Tilde Numerical System quantization. Users design workflows on a node-based canvas; the system executes them and compares quantization variants (Rect, Spoke, Fovea) across training and inference.",
+      "OptimaFlow is a visual ML workflow system for building, running and evaluating machine learning pipelines, with a focus on Tilde Numerical System quantisation. Users design workflows on a node-based canvas; the system executes them and compares quantisation variants (Rect, Spoke, Fovea) across training and inference.",
     metrics: [
-      { value: "50+", label: "Built-in Node Types" },
-      { value: "164+", label: "Custom Alpha Nodes" },
-      { value: "3", label: "Tilde Variants" },
+      { value: "Faster", label: "Experiment setup" },
+      { value: "3 variants", label: "Comparison visibility" },
+      { value: "Less", label: "Pipeline rework" },
     ],
     sections: [
       {
         title: "Visual Workflow Design",
-        body: "Drag-and-drop nodes and edges instead of writing pipeline code by hand: a multi-sheet workbook canvas with zoom and pan, undo and redo, and auto-layout. Data, model, quantization, training, utility, interface and template nodes, plus custom Alpha nodes loaded from JSON definitions.",
+        body: "Drag-and-drop nodes and edges instead of writing pipeline code by hand: a multi-sheet workbook canvas with zoom and pan, undo and redo, and auto-layout. Data, model, quantisation, training, utility, interface and template nodes, plus custom Alpha nodes loaded from JSON definitions.",
       },
       {
-        title: "Quantization Evaluation",
-        body: "Baseline and Tilde (Rect, Spoke, Fovea) quantization nodes are wired into real training and inference workflows, so the variants can be compared side by side in one environment, from data loading and model selection to validation and reporting.",
+        title: "Quantisation Evaluation",
+        body: "Baseline and Tilde (Rect, Spoke, Fovea) quantisation nodes are wired into real training and inference workflows, so the variants can be compared side by side in one environment, from data loading and model selection to validation and reporting.",
       },
       {
         title: "Execution Engine",
@@ -343,11 +343,11 @@ export const PROJECTS: Project[] = [
       },
     ],
     operationalValue:
-      "Makes ML workflow construction accessible. Improves reproducibility. Accelerates comparison of quantization approaches.",
+      "Makes ML workflow construction accessible. Improves reproducibility. Accelerates comparison of quantisation approaches.",
     stack: ["React 18", "Vite", "ReactFlow 11", "Python", "FastAPI", "PyTorch", "Julia (optional)"],
-    tags: ["ML Workflow Canvas", "Pipeline Templates", "Visual Workflows", "Quantization"],
+    tags: ["ML Workflow Canvas", "Pipeline Templates", "Visual Workflows", "Quantisation"],
     relatedServices: ["ai-mvp-development"],
-    source: "/work/optimaflow; OptimaFlow project description (v0.5.0)",
+    source: "/work/optimaflow",
   },
   {
     slug: "meridian",
@@ -362,10 +362,10 @@ export const PROJECTS: Project[] = [
     description:
       "MERIDIAN is a global e-commerce affiliate and marketplace platform built for vendors to sell physical products or redirect buyers to external merchants. Launched in Saudi Arabia with a multi-country schema from day one, built as a monorepo with 8 workspace packages, 4 applications, 12 domain modules, and ~111 API endpoints.",
     metrics: [
-      { value: "~111", label: "API Endpoints" },
-      { value: "30", label: "DB Entities" },
-      { value: "9", label: "State Machines" },
-      { value: "~400", label: "Unit Tests" },
+      { value: "3 groups", label: "Users served" },
+      { value: "Orders", label: "Transactions tracked" },
+      { value: "Revenue", label: "Admin visibility" },
+      { value: "Multi-country", label: "Market reach" },
     ],
     sections: [
       {
@@ -411,12 +411,12 @@ export const PROJECTS: Project[] = [
     summary:
       "Platform for legal professionals with document analysis, legal research, case discovery, OCR, translation, comparison, and AI chat.",
     description:
-      "Legal Assistant is an AI-powered legal platform for document analysis, research, and case discovery. Multi-agent CrewAI workflows handle specialized tasks (document comparison, content extraction, OCR/translation, and case law search), backed by Gemini, Perplexity, and Mistral as LLM providers.",
+      "Legal Assistant is an AI-powered legal platform for document analysis, research, and case discovery. Multi-agent CrewAI workflows handle specialised tasks (document comparison, content extraction, OCR/translation, and case law search), backed by Gemini, Perplexity, and Mistral as LLM providers.",
     metrics: [
-      { value: "4+", label: "AI Crews" },
-      { value: "3", label: "LLM Providers" },
-      { value: "PDF + Image", label: "Input Types" },
-      { value: "Indian Kanoon", label: "Case Database" },
+      { value: "Faster", label: "Document review" },
+      { value: "Less", label: "Manual comparison" },
+      { value: "Cases", label: "Research visibility" },
+      { value: "Lawyers", label: "Users supported" },
     ],
     sections: [
       {
@@ -425,7 +425,7 @@ export const PROJECTS: Project[] = [
       },
       {
         title: "Multi-Agent CrewAI Workflows",
-        body: "Four specialized CrewAI crews handle distinct tasks: document comparison, content listing, suggestion generation, and PDF analysis. Each crew runs as an autonomous multi-agent system with Gemini as the backbone LLM and Perplexity providing real-time research depth for case law and legal precedent.",
+        body: "Four specialised CrewAI crews handle distinct tasks: document comparison, content listing, suggestion generation, and PDF analysis. Each crew runs as an autonomous multi-agent system with Gemini as the backbone LLM and Perplexity providing real-time research depth for case law and legal precedent.",
       },
       {
         title: "Case Law Discovery",
@@ -458,8 +458,8 @@ export const PROJECTS: Project[] = [
     status: "Delivered MVP",
     depth: "snapshot",
     region: "operations",
-    summary: "Digitizes borrower and admin journey for pledge-backed gold and silver loans.",
-    description: "Digitizes borrower and admin journey for pledge-backed gold and silver loans.",
+    summary: "Digitises borrower and admin journey for pledge-backed gold and silver loans.",
+    description: "Digitises borrower and admin journey for pledge-backed gold and silver loans.",
     metrics: [],
     sections: [
       {
@@ -468,7 +468,7 @@ export const PROJECTS: Project[] = [
       },
     ],
     operationalValue:
-      "Reduces friction in secured-loan acquisition. Improves borrower transparency. Enables centralized review and operations at scale.",
+      "Reduces friction in secured-loan acquisition. Improves borrower transparency. Enables centralised review and operations at scale.",
     stack: [],
     tags: ["Loan Application Tracking", "Gold Loan Calculator", "Secured Lending", "Compliance"],
     relatedServices: ["workflow-automation"],
@@ -489,8 +489,8 @@ export const PROJECTS: Project[] = [
     metrics: [
       { value: "7", label: "Branches" },
       { value: "600+", label: "Customers" },
-      { value: "30+", label: "DB Collections" },
-      { value: "v20", label: "Version" },
+      { value: "1,000+", label: "Transactions" },
+      { value: "Live", label: "Revenue visibility" },
     ],
     sections: [
       {
@@ -503,7 +503,7 @@ export const PROJECTS: Project[] = [
       },
       {
         title: "Analytics & Reporting",
-        body: "Dashboard surfacing KPI cards, revenue trends, service sales analysis, staff performance leaderboards, customer lifecycle segmentation, and client value metrics. All reports support custom date ranges and can be filtered per branch. Expense tracking categorizes operational costs alongside revenue for profit analysis.",
+        body: "Dashboard surfacing KPI cards, revenue trends, service sales analysis, staff performance leaderboards, customer lifecycle segmentation, and client value metrics. All reports support custom date ranges and can be filtered per branch. Expense tracking categorises operational costs alongside revenue for profit analysis.",
       },
     ],
     operationalValue:
@@ -556,9 +556,9 @@ export const PROJECTS: Project[] = [
     depth: "snapshot",
     region: "products",
     summary:
-      "AI-assisted weight management application designed around adherence, recovery, and sustainable behavior change.",
+      "AI-assisted weight management application designed around adherence, recovery, and sustainable behaviour change.",
     description:
-      "AI-assisted weight management application designed around adherence, recovery, and sustainable behavior change.",
+      "AI-assisted weight management application designed around adherence, recovery, and sustainable behaviour change.",
     metrics: [],
     sections: [
       {
@@ -569,7 +569,7 @@ export const PROJECTS: Project[] = [
     operationalValue:
       "Supports sustainable adherence instead of guilt-based engagement. Speeds meal logging through AI-assisted recognition. Keeps health logic explainable, auditable, and server-controlled.",
     stack: [],
-    tags: ["Progress Dashboard", "Meal Logging", "Behavior Change", "AI Coach"],
+    tags: ["Progress Dashboard", "Meal Logging", "Behaviour Change", "AI Coach"],
     relatedServices: ["ai-mvp-development"],
     source: "/work/nutrition",
   },
@@ -586,10 +586,10 @@ export const PROJECTS: Project[] = [
     description:
       "A cross-platform health activity dashboard built with React Native (Expo) and a Next.js API backend. Users register, complete onboarding, connect a platform health data source, and view heart rate, steps, calories, distance, and wellness scoring on Android, iOS, and Web from a single shared UI codebase.",
     metrics: [
-      { value: "iOS, Android, Web", label: "Platforms" },
-      { value: "HealthKit + Health Connect", label: "Health Providers" },
-      { value: "9", label: "API Endpoints" },
-      { value: "8+", label: "Metrics Tracked" },
+      { value: "3 platforms", label: "Users reached" },
+      { value: "Daily", label: "Activity visibility" },
+      { value: "Wellness", label: "Progress insights" },
+      { value: "Demo-ready", label: "Sales conversations" },
     ],
     sections: [
       {
@@ -622,5 +622,11 @@ export const PROJECTS: Project[] = [
     source: "/work/health-dashboard",
   },
 ];
+
+const HOMEPAGE_PROJECT_SLUGS = ["doctor-ai", "lawyer-ai", "saloon", "meridian", "designt", "caption-cc"] as const;
+
+export const HOMEPAGE_PROJECTS = HOMEPAGE_PROJECT_SLUGS
+  .map((slug) => PROJECTS.find((p) => p.slug === slug))
+  .filter((p): p is Project => Boolean(p));
 
 export const projectBySlug = (slug: string) => PROJECTS.find((p) => p.slug === slug);

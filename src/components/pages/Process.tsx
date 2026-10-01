@@ -60,7 +60,7 @@ export function Process() {
             {ENGAGEMENT_MODELS.map((m) => (
               <li key={m.name} className={styles.model}>
                 <p className={styles.mname}>{m.name}{m.mostPopular && <span className={`mono ${styles.popular}`}>Most chosen</span>}</p>
-                <p className={`mono ${styles.mmeta}`}>{m.duration} · {m.priceINR} · {m.priceUSD}</p>
+                <p className={`mono ${styles.mmeta}`}>{m.duration} · {m.priceGBP}</p>
                 <p className={styles.mincl}>{m.included.join(" · ")}</p>
               </li>
             ))}

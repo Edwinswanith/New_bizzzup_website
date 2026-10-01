@@ -3,17 +3,17 @@
 export const COMPANY = {
   name: "Tech Cogniverse",
   description:
-    "We build AI agents, voice systems, and custom software that run real operations. Chennai, India.",
+    "We build AI agents, voice systems, and custom software that run real operations for UK teams.",
   founders: ["Suhail", "Edwin Swanith"],
   address: "105, ECR Road, Panaiyur, Chennai 600119, Tamil Nadu, India",
-  city: "Chennai, India",
+  city: "UK-focused, remote-first",
   email: "edwinswanith006@gmail.com",
   phone: { display: "+91 9003 020 030", tel: "+919003020030" },
   calendly: "", // booking link: pending a Tech Cogniverse account
   x: "", // social profile: pending a Tech Cogniverse account
   responseTime: "Typically respond within 24 hours",
   foundedBy:
-    "Founded by Suhail and Edwin Swanith, the studio is based at 105, ECR Road, Panaiyur, Chennai 600119, Tamil Nadu, India.",
+    "Founded by Suhail and Edwin Swanith, Tech Cogniverse is a remote-first AI engineering studio serving UK teams.",
   officialSite:
     "Tech Cogniverse designs, builds, and runs AI products end to end, including agents, voice systems, RAG platforms, custom software, and full-stack web and mobile products.",
   directAccess:
@@ -123,8 +123,7 @@ export const PROCESS_PROMISE = "No hourly billing. No open-ended scope. No disap
 
 export type EngagementModel = {
   name: string;
-  priceINR: string;
-  priceUSD: string;
+  priceGBP: string;
   duration: string;
   included: string[];
   mostPopular: boolean;
@@ -133,8 +132,7 @@ export type EngagementModel = {
 export const ENGAGEMENT_MODELS: EngagementModel[] = [
   {
     name: "Launch Sprint",
-    priceINR: "Starting from ₹60k",
-    priceUSD: "From ~$900",
+    priceGBP: "Starting from £3,500",
     duration: "10 days",
     included: [
       "Landing page + waitlist",
@@ -146,16 +144,14 @@ export const ENGAGEMENT_MODELS: EngagementModel[] = [
   },
   {
     name: "Core MVP",
-    priceINR: "Starting from ₹2.5L",
-    priceUSD: "From ~$3k",
+    priceGBP: "Starting from £18,000",
     duration: "45 days",
     included: ["Web + mobile apps", "Auth, payments, deploy", "1 to 2 AI features", "Weekly Friday demos"],
     mostPopular: true,
   },
   {
     name: "Growth Retainer",
-    priceINR: "Starting from ₹30k/month",
-    priceUSD: "From ~$450/month",
+    priceGBP: "Starting from £2,500/month",
     duration: "Ongoing",
     included: [
       "Iterations and new features",
@@ -187,14 +183,14 @@ export const PRACTICES: { title: string; description: string }[] = [
       "Scoped permissions per role (owner, manager, staff, patient, doctor), enforced server-side, not just in the UI.",
   },
   {
-    title: "Dockerized Services",
+    title: "Dockerised Services",
     description:
-      "Every system ships as containerized, multi-stage builds for consistent local, staging, and production environments.",
+      "Every system ships as containerised, multi-stage builds for consistent local, staging, and production environments.",
   },
   {
     title: "Cloud Deployment",
     description:
-      "Deployed on managed cloud infrastructure (Cloud Run, containerized hosts), not a laptop demo, not a local script.",
+      "Deployed on managed cloud infrastructure (Cloud Run, containerised hosts), not a laptop demo, not a local script.",
   },
   {
     title: "CI/CD Pipelines",
@@ -251,10 +247,10 @@ export const CONTACT_FORM = {
     "Need technical audit",
   ],
   budgets: [
-    "Under ₹1L (~$1.2k)",
-    "₹1L–₹3L ($1.2k–$3.6k)",
-    "₹3L–₹5L ($3.6k–$6k)",
-    "₹5L+ ($6k+)",
+    "Under £5k",
+    "£5k–£15k",
+    "£15k–£35k",
+    "£35k+",
     "Not sure yet",
   ],
 } as const;

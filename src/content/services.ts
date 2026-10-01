@@ -9,14 +9,14 @@ export const SERVICES: Service[] = [
     region: "knowledge",
     headline: "Agents that execute workflows, not just answer questions.",
     intro:
-      "We build custom AI agents that carry out multi-step work inside a business: extracting information, routing tasks, coordinating with other systems, and producing structured output a person can act on or approve. Our agent systems use multi-agent orchestration frameworks (CrewAI) to split complex work across specialized agents rather than relying on a single general-purpose prompt. Agents are built to execute defined workflows, not to freely improvise: each agent has a scoped task, a data boundary, and, where the output affects a real decision, a human review checkpoint before anything is finalized.",
+      "We build custom AI agents that carry out multi-step work inside a business: extracting information, routing tasks, coordinating with other systems, and producing structured output a person can act on or approve. Our agent systems use multi-agent orchestration frameworks (CrewAI) to split complex work across specialised agents rather than relying on a single general-purpose prompt. Agents are built to execute defined workflows, not to freely improvise: each agent has a scoped task, a data boundary, and, where the output affects a real decision, a human review checkpoint before anything is finalised.",
     fit: [
       "Teams with a repeatable, multi-step process currently done manually across documents, calls, or records",
       "Operations that need information extracted, classified, or routed from unstructured input (documents, transcripts, conversations)",
       "Businesses that already have a workflow defined and want it executed faster and more consistently, not redesigned from scratch",
     ],
     problems: [
-      "Staff time spent manually reading, comparing, or summarizing documents and conversations",
+      "Staff time spent manually reading, comparing, or summarising documents and conversations",
       "Inconsistent handling of repetitive multi-step tasks (intake, triage, follow-up, record-keeping)",
       "Delays caused by information sitting in one system that needs to reach another",
     ],
@@ -32,7 +32,7 @@ export const SERVICES: Service[] = [
       "Training or fine-tuning custom foundation models: we orchestrate and ground existing LLMs, we do not train new ones",
     ],
     capabilities: [
-      "Multi-agent orchestration with CrewAI: specialized agents for distinct sub-tasks (e.g. comparison, extraction, suggestion, document analysis) coordinated as a crew",
+      "Multi-agent orchestration with CrewAI: specialised agents for distinct sub-tasks (e.g. comparison, extraction, suggestion, document analysis) coordinated as a crew",
       "LLM orchestration and chaining via LangChain where agents need multi-step reasoning across tools or data sources",
       "Structured output extraction from unstructured input (documents, transcripts, conversations)",
       "Role-based access control so agent actions and data access are scoped server-side, not just hidden in the UI",
@@ -55,8 +55,8 @@ export const SERVICES: Service[] = [
     ],
     pricingFactors: [
       "Scope, integrations, AI complexity, and deployment requirements set the final quote, consistent with how every engagement is priced",
-      "A Launch Sprint (starting from ₹60k / ~$900, 10 days) can validate a single agent workflow before a larger build",
-      "A Core MVP engagement (starting from ₹2.5L / ~$3k, 45 days) fits a full agent-driven feature inside a broader product",
+      "A Launch Sprint (starting from £3,500, 10 days) can validate a single agent workflow before a larger build",
+      "A Core MVP engagement (starting from £18,000, 45 days) fits a full agent-driven feature inside a broader product",
       "Fixed price after a 20-minute scoping call; 50% advance to begin",
     ],
     safeguards: [
@@ -209,7 +209,7 @@ export const SERVICES: Service[] = [
     capabilities: [
       "Full-stack web (Next.js, React) and mobile (React Native, Expo) product builds",
       "One or two focused AI features per MVP: conversational design (DesignT/Gemini Vision), document intelligence (Legal Assistant), visual workflow builders (OptimaFlow)",
-      "Cloud deployment on managed infrastructure (Google Cloud Run) with Dockerized, multi-stage builds from day one",
+      "Cloud deployment on managed infrastructure (Google Cloud Run) with Dockerised, multi-stage builds from day one",
       "CI/CD pipelines so releases are repeatable, not manual",
     ],
     stack: [
@@ -230,9 +230,9 @@ export const SERVICES: Service[] = [
       "45 days is the standard Core MVP timeline; smaller validations fit the 10-day Launch Sprint",
     ],
     pricingFactors: [
-      "Launch Sprint, starting from ₹60k (~$900), 10 days: landing page, waitlist, analytics, one AI feature demo. Validate before you build",
-      "Core MVP, starting from ₹2.5L (~$3k), 45 days: full web + mobile app, auth, payments, deploy, 1-2 AI features, weekly demos",
-      "Growth Retainer, starting from ₹30k/month (~$450/month): iterations, fixes, monitoring after launch",
+      "Launch Sprint, starting from £3,500, 10 days: landing page, waitlist, analytics, one AI feature demo. Validate before you build",
+      "Core MVP, starting from £18,000, 45 days: full web + mobile app, auth, payments, deploy, 1-2 AI features, weekly demos",
+      "Growth Retainer, starting from £2,500/month: iterations, fixes, monitoring after launch",
       "Fixed price after a 20-minute scoping call; 50% advance to begin; final quote depends on scope, integrations, AI complexity, and deployment requirements",
     ],
     safeguards: [
@@ -323,7 +323,7 @@ export const SERVICES: Service[] = [
       "Deployment on managed cloud infrastructure with monitoring and logging from day one",
     ],
     outOfScope: [
-      "Off-the-shelf SaaS configuration: this is custom-built software, not customizing an existing third-party product",
+      "Off-the-shelf SaaS configuration: this is custom-built software, not customising an existing third-party product",
       "Hardware procurement (though we do integrate with hardware where a project requires it, as in MediScribe's recorder device)",
       "Ongoing operations/business-process consulting beyond the software itself",
     ],
@@ -356,7 +356,7 @@ export const SERVICES: Service[] = [
     safeguards: [
       "Secure API Architecture: authenticated, rate-limited layers separating client, business logic, and data tiers",
       "Role-Based Access Control: scoped permissions per role enforced server-side",
-      "Dockerized Services and Cloud Deployment: containerized, multi-stage builds on managed infrastructure",
+      "Dockerised Services and Cloud Deployment: containerised, multi-stage builds on managed infrastructure",
       "Monitoring & Logging: request tracing and audit trails from launch",
     ],
     evidence: ["saloon", "meridian", "flightdeck", "prof-hemant-sheth"],

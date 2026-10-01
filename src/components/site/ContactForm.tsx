@@ -8,6 +8,7 @@ type State =
   | { kind: "idle" }
   | { kind: "sending" }
   | { kind: "sent" }
+  | { kind: "drafted"; href: string }
   | { kind: "invalid"; fields: Record<string, string> }
   | { kind: "unavailable" }
   | { kind: "failed" };
@@ -24,22 +25,56 @@ export function ContactForm() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget).entries());
+    const fields = validateDraft(data);
+    if (Object.keys(fields).length) {
+      setState({ kind: "invalid", fields });
+      return;
+    }
+    const draftHref = mailtoDraft(data);
+    const openDraft = () => {
+      window.location.assign(draftHref);
+      setState({ kind: "drafted", href: draftHref });
+    };
+    if (configured === false) {
+      openDraft();
+      return;
+    }
     setState({ kind: "sending" });
     try {
       const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
       const out = await res.json().catch(() => ({}));
       if (res.ok && out.ok) { setState({ kind: "sent" }); return; }
       if (res.status === 422) { setState({ kind: "invalid", fields: out.fields ?? {} }); return; }
-      if (res.status === 503) { setState({ kind: "unavailable" }); return; }
-      setState({ kind: "failed" });
+      openDraft();
     } catch {
-      setState({ kind: "failed" });
+      openDraft();
     }
   }
 
   const err = (f: string) => (state.kind === "invalid" ? state.fields[f] : undefined);
   const field = (name: string) => ({ id: `${uid}-${name}`, name, "aria-invalid": err(name) ? true : undefined, "aria-describedby": err(name) ? `${uid}-${name}-err` : undefined });
   const errText = (f: string) => (err(f) ? <p id={`${uid}-${f}-err`} className={styles.err}>{err(f)}</p> : null);
+  const value = (data: Record<string, FormDataEntryValue>, key: string) => (typeof data[key] === "string" ? data[key].trim() : "");
+  const validateDraft = (data: Record<string, FormDataEntryValue>) => {
+    const fields: Record<string, string> = {};
+    if (!value(data, "name")) fields.name = "Please add your name.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value(data, "email"))) fields.email = "Please add an email we can reply to.";
+    if (value(data, "message").length < 10) fields.message = "Tell us a little more about the friction (at least a sentence).";
+    return fields;
+  };
+  const mailtoDraft = (data: Record<string, FormDataEntryValue>) => {
+    const rows = [
+      ["Name", value(data, "name")],
+      ["Email", value(data, "email")],
+      ["Company", value(data, "company")],
+      ["Needs help with", value(data, "need")],
+      ["Project stage", value(data, "stage")],
+      ["Budget range", value(data, "budget")],
+    ].filter(([, v]) => v);
+    const subject = `Website enquiry: ${value(data, "name")}`;
+    const body = `${rows.map(([k, v]) => `${k}: ${v}`).join("\n")}\n\n${value(data, "message")}`;
+    return `mailto:${COMPANY.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
   const direct = (
     <span>
       Email <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>
@@ -58,11 +93,22 @@ export function ContactForm() {
     );
   }
 
+  if (state.kind === "drafted") {
+    return (
+      <div className={styles.sent} role="status" data-sent>
+        <span className={styles.line} aria-hidden="true" />
+        <p className="mono">Email draft opened</p>
+        <p className={styles.sentTitle}>Send it from your email app.</p>
+        <p>The website filled the draft with your project details. <a href={state.href}>Open the draft again</a>, or {direct}</p>
+      </div>
+    );
+  }
+
   return (
     <form className={styles.form} onSubmit={onSubmit} noValidate aria-describedby={configured === false ? `${uid}-offline` : undefined}>
       {configured === false && (
         <p id={`${uid}-offline`} className={styles.notice} role="note">
-          This form isn’t connected to our inbox yet, so it can’t deliver messages. {direct}
+          Server delivery is not configured yet, so this form opens a prefilled email draft instead. {direct}
         </p>
       )}
       <div className={styles.full}>
@@ -111,7 +157,7 @@ export function ContactForm() {
       </div>
       <div className={`${styles.full} ${styles.actions}`}>
         <button type="submit" className="btn btn--primary glow glow--medium" disabled={state.kind === "sending"}>
-          {state.kind === "sending" ? "Sending…" : "Send it into the system"}
+          {state.kind === "sending" ? "Sending…" : configured === false ? "Open email draft" : "Send it into the system"}
         </button>
         {COMPANY.calendly && <a href={COMPANY.calendly} target="_blank" rel="noopener" className="link-arrow">Or book a 20-minute call</a>}
       </div>

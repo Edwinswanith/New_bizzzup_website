@@ -7,7 +7,7 @@ import {
   knowledgeAnchors, routeAnchors, framePath, busPath, busFraction, railPath,
   type Geo, type Rect,
 } from "@/lib/line/engine";
-import { PROJECTS } from "@/content/projects";
+import { HOMEPAGE_PROJECTS } from "@/content/projects";
 import { SERVICES } from "@/content/services";
 import { REGIONS } from "@/content/regions";
 import {
@@ -510,7 +510,7 @@ export function OneLine() {
     };
   }, []);
 
-  const designt = PROJECTS.find((p) => p.slug === "designt")!;
+  const designt = HOMEPAGE_PROJECTS.find((p) => p.slug === "designt")!;
   const testimonial = TESTIMONIALS[0];
 
   return (
@@ -531,7 +531,7 @@ export function OneLine() {
         </div>
         <div data-stage className={`${s.stage} ${s.front}`}>
           <canvas data-still="hero" className={s.still} aria-hidden="true" />
-          <p className={s.kicker}>Custom AI &amp; software development · Chennai</p>
+          <p className={s.kicker}>AI systems &amp; product engineering · UK</p>
           <h1 id="h-title" className={s.h1}>
             We turn business complexity into <em>AI systems that work.</em>
           </h1>
@@ -652,7 +652,7 @@ export function OneLine() {
                     return <li key={slug}><Link href={`/services/${slug}`}>{svc.shortName}</Link></li>;
                   })}
                 </ul>
-                <p className={s.cardCount}>{PROJECTS.filter((p) => p.region === r.id).length} builds in this region</p>
+                <p className={s.cardCount}>{HOMEPAGE_PROJECTS.filter((p) => p.region === r.id).length} featured builds in this region</p>
               </li>
             ))}
           </ol>
@@ -664,11 +664,11 @@ export function OneLine() {
         <section id="work" className={s.band} aria-labelledby="w-title">
           <header className={s.bandHead}>
             <p className={s.marker}>06 · Work</p>
-            <h2 id="w-title" className={s.h2}>{PROJECTS.length} systems we’ve built.</h2>
-            <p className={s.body}>Every one is named with its real status. Nothing here is a concept shot.</p>
+            <h2 id="w-title" className={s.h2}>{HOMEPAGE_PROJECTS.length} strongest builds on the line.</h2>
+            <p className={s.body}>A tighter homepage cut: full case studies, shipped systems, and work that best explains the studio. The full archive stays filterable.</p>
           </header>
           <ol className={s.rows}>
-            {PROJECTS.map((p, i) => (
+            {HOMEPAGE_PROJECTS.map((p, i) => (
               <li key={p.slug} className={s.row}>
                 <Link href={`/work/${p.slug}`}>
                   <span className={s.rowNum}>{pad(i + 1)}</span>
@@ -706,7 +706,7 @@ export function OneLine() {
             {ENGAGEMENT_MODELS.map((m) => (
               <li key={m.name}>
                 <p className={s.modelName}>{m.name}</p>
-                <p className={s.modelMeta}>{m.duration} · {m.priceINR} · {m.priceUSD}</p>
+                <p className={s.modelMeta}>{m.duration} · {m.priceGBP}</p>
               </li>
             ))}
           </ul>

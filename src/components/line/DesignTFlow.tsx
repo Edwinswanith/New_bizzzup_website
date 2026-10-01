@@ -5,10 +5,10 @@ import s from "./OneLine.module.css";
 import f from "./DesignTFlow.module.css";
 
 /* The DesignT order flow inside the products chapter. One shirt persists through all four steps: each step moves and
-   scales the same element, and every choice made in Customize is carried by it into Details and Payment.
+   scales the same element, and every choice made in Customise is carried by it into Details and Payment.
    This is an illustration (see the chapter caption): nothing is collected, priced or charged here. */
 
-const STEPS = ["Design", "Customize", "Details", "Payment"];
+const STEPS = ["Design", "Customise", "Details", "Payment"];
 const COLOURS = [
   { id: "light", label: "Light", shirt: "#f4f5f5", mark: "#f2461e", name: "#16191d" },
   { id: "graphite", label: "Graphite", shirt: "#2b3036", mark: "#f2461e", name: "#f4f5f5" },
@@ -101,7 +101,7 @@ export function DesignTFlow() {
             <span className={`${s.frameRows} ${f.rows}`} />
           </div>
 
-          {/* 02 · Customize: a few strong controls, each reflected on the shirt at once. */}
+          {/* 02 · Customise: a few strong controls, each reflected on the shirt at once. */}
           <div className={`${f.view} ${f.side} ${f.controls}`} {...view(1)}>
             <div role="group" aria-label="Colour" className={f.ctl} style={{ ["--k" as string]: 0 }}>
               <span className={f.lab}>Colour</span>

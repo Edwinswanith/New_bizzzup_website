@@ -10,7 +10,7 @@ import a from "./about.module.css";
 
 export const metadata = pageMeta({
   title: "About",
-  description: "Tech Cogniverse is a custom AI and software development company founded by Suhail and Edwin Swanith in Chennai, India.",
+  description: "Tech Cogniverse is a remote-first AI engineering studio building production systems for UK teams.",
   path: "/about",
 });
 

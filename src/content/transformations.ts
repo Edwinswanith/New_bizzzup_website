@@ -131,9 +131,9 @@ export const PROJECT_FLOW: Record<string, TStep[]> = {
   ],
   optimaflow: [
     { label: "ML workflows that are hard to construct", kind: "friction" },
-    { label: "Data, model, training, validation, quantization nodes", kind: "structure" },
+    { label: "Data, model, training, validation, quantisation nodes", kind: "structure" },
     { label: "DAG validated and executed in topological order", kind: "system" },
-    { label: "Quantization approaches compared", kind: "action" },
+    { label: "Quantisation approaches compared", kind: "action" },
   ],
   "health-dashboard": [
     { label: "Health data split across Apple and Google platforms", kind: "friction" },

@@ -24,7 +24,7 @@ export const PRIVACY: LegalDoc = {
     {
       heading: "How we use information",
       paragraphs: [
-        "We use submitted information to respond to inquiries, scope projects, operate the website, improve reliability, prevent abuse, and maintain business records related to requested services.",
+        "We use submitted information to respond to enquiries, scope projects, operate the website, improve reliability, prevent abuse, and maintain business records related to requested services.",
         "We do not sell personal information. We only share information when needed to operate the website, provide requested services, comply with law, or protect our rights and systems.",
       ],
     },
@@ -67,8 +67,8 @@ export const CONTENT_RIGHTS: LegalDoc = {
       paragraphs: [
         "Unless otherwise stated, the text, layout, visual design, case-study presentation, graphics, and original website content on this site belong to Tech Cogniverse.",
         "You may view and share links to our pages, but you may not copy, reproduce, scrape, republish, or commercially reuse our website content without written permission.",
-        "Public search engines and AI answer engines may crawl and index publicly available pages on this website for discovery, search results, short snippets, summarization, and attributed citation, subject to our robots.txt directives and applicable law.",
-        "This permission does not authorize bulk extraction, creation of commercial datasets, full-text reproduction, republishing, model training, removal of attribution, or commercial reuse of our content without prior written permission.",
+        "Public search engines and AI answer engines may crawl and index publicly available pages on this website for discovery, search results, short snippets, summarisation, and attributed citation, subject to our robots.txt directives and applicable law.",
+        "This permission does not authorise bulk extraction, creation of commercial datasets, full-text reproduction, republishing, model training, removal of attribution, or commercial reuse of our content without prior written permission.",
       ],
     },
     {
