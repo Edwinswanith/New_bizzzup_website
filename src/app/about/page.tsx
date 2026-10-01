@@ -10,7 +10,7 @@ import a from "./about.module.css";
 
 export const metadata = pageMeta({
   title: "About",
-  description: "Tech Cogniverse is an AI engineering studio founded by Suhail and Edwin Swanith in Chennai, India.",
+  description: "Tech Cogniverse is a custom AI and software development company founded by Suhail and Edwin Swanith in Chennai, India.",
   path: "/about",
 });
 
@@ -47,7 +47,7 @@ export default function AboutPage() {
               <li key={r.id}><span className="mono">{r.name}</span> {r.grammar.join(" → ")}</li>
             ))}
           </ul>
-          <p style={{ marginTop: 20 }}><Link href="/work" className="link-arrow">See all fifteen builds</Link></p>
+          <p style={{ marginTop: 20 }}><Link href="/work" className="link-arrow">See all sixteen builds</Link></p>
         </section>
       </div>
       <NextStep />

@@ -62,8 +62,8 @@ export const PROMISE = {
 } as const;
 
 export const STATS: { value: string; label: string }[] = [
-  { value: "15", label: "selected builds" },
-  { value: "12", label: "delivered or live" },
+  { value: "16", label: "selected builds" },
+  { value: "13", label: "delivered or live" },
   { value: "45 days", label: "fixed delivery window" },
   { value: "10+", label: "industries covered" },
 ];

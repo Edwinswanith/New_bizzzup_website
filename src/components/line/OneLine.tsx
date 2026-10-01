@@ -531,16 +531,16 @@ export function OneLine() {
         </div>
         <div data-stage className={`${s.stage} ${s.front}`}>
           <canvas data-still="hero" className={s.still} aria-hidden="true" />
-          <p className={s.kicker}>AI systems &amp; product engineering · Chennai</p>
+          <p className={s.kicker}>Custom AI &amp; software development · Chennai</p>
           <h1 id="h-title" className={s.h1}>
             We turn business complexity into <em>AI systems that work.</em>
           </h1>
           <p className={s.facts}>Live in 45 days · Fixed price · A demo every Friday</p>
           <p className={s.actions}>
-            <a className={s.cta} href="#friction">Describe your friction</a>
-            <a className={s.link} href="#voice">See how it works</a>
+            <a className={s.cta} href="#friction">Start a project</a>
+            <a className={s.link} href="#work">See our work</a>
           </p>
-          <p className={s.next} aria-hidden="true">01 · Voice</p>
+          <p className={s.next} aria-hidden="true">01 · Voice AI</p>
         </div>
       </section>
 
@@ -549,9 +549,9 @@ export function OneLine() {
         <div data-stage className={s.stage}>
           <canvas data-still="voice" className={s.still} aria-hidden="true" />
           <div className={s.copy}>
-            <p className={s.marker}>01 · Voice</p>
+            <p className={s.marker}>01 · Voice AI</p>
             <h2 id="v-title" className={s.h2}>A conversation ends. Nothing usable is left behind.</h2>
-            <p className={s.body}>Voice systems that listen live, turn speech into structure, and act on it, with a person reviewing anything consequential.</p>
+            <p className={s.body}>We build voice systems that listen live, turn speech into structure, and act on it, with a person reviewing anything consequential.</p>
           </div>
           <div className={s.transcript}>
             <p className={s.words}>
@@ -577,9 +577,9 @@ export function OneLine() {
         <div data-stage className={s.stage}>
           <canvas data-still="knowledge" className={s.still} aria-hidden="true" />
           <div className={s.copy}>
-            <p className={s.marker}>02 · Knowledge</p>
+            <p className={s.marker}>02 · RAG &amp; AI agents</p>
             <h2 id="k-title" className={s.h2}>The answer is in there. Somewhere.</h2>
-            <p className={`${s.body} ${s.wideOnly}`}>Retrieval systems that ground AI answers in your own documents and data.</p>
+            <p className={`${s.body} ${s.wideOnly}`}>We build retrieval systems that ground AI answers in your own documents and data.</p>
           </div>
           {DOCS.map((d, i) => (
             <article key={d} data-doc data-lit="0" className={s.doc} style={{ ["--i" as string]: i }}>
@@ -600,9 +600,9 @@ export function OneLine() {
         <div data-stage className={s.stage}>
           <canvas data-still="ops" className={s.still} aria-hidden="true" />
           <div className={s.copy}>
-            <p className={s.marker}>03 · Operations</p>
+            <p className={s.marker}>03 · Business software</p>
             <h2 id="o-title" className={s.h2}>Seven branches. Seven versions of the truth.</h2>
-            <p className={s.body}>Billing, stock, staff and customers on one system, so every branch reads from the same record.</p>
+            <p className={s.body}>We put billing, stock, staff and customers on one system, so every branch reads from the same record.</p>
             <dl className={s.metrics}>
               <div><dt>Branches</dt><dd>7</dd></div>
               <div><dt>Customers</dt><dd>600+</dd></div>
@@ -621,15 +621,15 @@ export function OneLine() {
         <div data-stage className={s.stage}>
           <canvas data-still="products" className={s.still} aria-hidden="true" />
           <div className={s.copy}>
-            <p className={s.marker}>04 · Products</p>
+            <p className={s.marker}>04 · AI MVPs</p>
             <h2 id="p-title" className={s.h2}>The idea is clear. The product doesn’t exist yet.</h2>
-            <p className={`${s.body} ${s.wideOnly}`}>A working, deployed product in a fixed 45-day scope: auth, payments, deployment and one or two AI features.</p>
+            <p className={`${s.body} ${s.wideOnly}`}>We ship a working, deployed product in a fixed 45-day scope: auth, payments, deployment and one or two AI features.</p>
           </div>
           <div data-frame className={s.frame}>
             <p className={s.frameBar}>{designt.name} · order flow</p>
             <DesignTFlow />
           </div>
-          <p className={s.caption}>Illustration of DesignT: a prompt becomes artwork, then a four-step checkout.</p>
+          <p className={s.caption}>Illustration of DesignT, a Tech Cogniverse build: a prompt becomes artwork, then a four-step checkout.</p>
         </div>
       </section>
 
@@ -638,8 +638,8 @@ export function OneLine() {
         <div data-stage className={s.stage}>
           <canvas data-still="map" className={s.still} aria-hidden="true" />
           <div className={s.copy}>
-            <p className={s.marker}>05 · The system</p>
-            <h2 id="m-title" className={s.h2}>Four regions. One line through all of them.</h2>
+            <p className={s.marker}>05 · What we build</p>
+            <h2 id="m-title" className={s.h2}>Four kinds of system. We design, build and run all four.</h2>
           </div>
           <ol className={s.cards}>
             {REGIONS.map((r, i) => (
@@ -664,7 +664,7 @@ export function OneLine() {
         <section id="work" className={s.band} aria-labelledby="w-title">
           <header className={s.bandHead}>
             <p className={s.marker}>06 · Work</p>
-            <h2 id="w-title" className={s.h2}>{PROJECTS.length} builds on the line.</h2>
+            <h2 id="w-title" className={s.h2}>{PROJECTS.length} systems we’ve built.</h2>
             <p className={s.body}>Every one is named with its real status. Nothing here is a concept shot.</p>
           </header>
           <ol className={s.rows}>
@@ -684,7 +684,7 @@ export function OneLine() {
 
         <section id="process" className={s.band} aria-labelledby="pr-title">
           <header className={s.bandHead}>
-            <p className={s.marker}>07 · Process</p>
+            <p className={s.marker}>07 · How we work</p>
             <h2 id="pr-title" className={s.h2}>Forty-five days, in the open.</h2>
             <p className={s.body}>{PROCESS_PROMISE}</p>
           </header>
@@ -736,7 +736,7 @@ export function OneLine() {
 
         <section id="friction" className={`${s.band} ${s.contact}`} aria-labelledby="c-title">
           <header className={s.bandHead}>
-            <p className={s.marker}>09 · Contact</p>
+            <p className={s.marker}>09 · Start a project</p>
             <h2 id="c-title" className={s.h2}>Every system here started as a tangle. Describe yours.</h2>
             <p className={s.body}>
               {COMPANY.responseTime}. Or write to <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>, or call{" "}

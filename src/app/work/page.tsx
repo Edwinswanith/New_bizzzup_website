@@ -9,7 +9,7 @@ import styles from "@/components/pages/page.module.css";
 
 export const metadata = pageMeta({
   title: "Work",
-  description: "Fifteen AI and software builds by Tech Cogniverse across healthcare, legal, commerce, operations, fintech, media and more, with their real status.",
+  description: "Sixteen AI and software builds by Tech Cogniverse across healthcare, legal, commerce, operations, fintech, media and more, with their real status.",
   path: "/work",
 });
 

@@ -62,6 +62,13 @@ export const SERVICE_FLOW: Record<string, { title: string; steps: TStep[] }> = {
 };
 
 export const PROJECT_FLOW: Record<string, TStep[]> = {
+  "prof-hemant-sheth": [
+    { label: "A dated site, hard to use on mobile", kind: "friction" },
+    { label: "Treatment library, robotic hub and clinic pages", kind: "structure" },
+    { label: "Server-rendered pages with structured data, SEO-audited every build", kind: "system" },
+    { label: "Consultation request from any page, emailed to the practice", kind: "action" },
+    { label: "Only verified facts reach the live site", kind: "gate" },
+  ],
   "caption-cc": [
     { label: "Tamil-English code-switched video", kind: "friction" },
     { label: "Audio extracted, transcribed with Whisper", kind: "structure" },

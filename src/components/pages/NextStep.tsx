@@ -8,7 +8,7 @@ export function NextStep({ title = "Have a friction like this?" }: { title?: str
       <div className={`wrap ${styles.nextGrid}`}>
         <h2 className={styles.nextTitle}>{title} <em>Describe it in plain words.</em></h2>
         <div className={styles.nextActions}>
-          <Link href="/#friction" className="btn btn--primary glow">Describe your friction</Link>
+          <Link href="/#friction" className="btn btn--primary glow">Start a project</Link>
           {COMPANY.calendly ? (
             <a href={COMPANY.calendly} target="_blank" rel="noopener" className="link-arrow">Book a 20-minute call</a>
           ) : (
